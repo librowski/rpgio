@@ -1,0 +1,44 @@
+@use "sass:map";
+
+.text {
+  margin: 0;
+  font-family: "DM Sans", sans-serif;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+$text-weights: (
+  "light": 300,
+  "regular": 400,
+  "bold": 700
+);
+
+$text-sizes: (
+  "small": 0.5,
+  "medium": 1,
+  "large": 1.5
+);
+
+$text-colors: (
+  "accent": var(--accent),
+  "primary": var(--text-primary),
+  "secondary": var(--text-primary)
+);
+
+@each $name, $weight in $text-weights {
+  .weight-#{$name} {
+    font-weight: $weight;
+  }
+}
+
+@each $name, $size in $text-sizes {
+  .size-#{$name} {
+    font-size: #{$size}rem;
+  }
+}
+
+@each $name, $color in $text-colors {
+  .color-#{$name} {
+    color: $color;
+  }
+}

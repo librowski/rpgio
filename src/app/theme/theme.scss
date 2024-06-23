@@ -1,0 +1,21 @@
+// Theme - PrimeReact overrides
+$primaryColor: #5959C6 !default;
+$primaryDarkColor: #3e3eb6 !default;
+$primaryDarkerColor: #35359b !default;
+$primaryDarkestColor: #2d2d84 !default;
+$primaryLightColor: #b2b2e5 !default;
+$primaryLighterColor: #bebee9 !default;
+$primaryLightestColor: #c8c8ec !default;
+$primaryTextColor: #aaaeb7 !default;
+
+$backgroundDark: #090D10;
+$background: #111122;
+$backgroundLight: #1B1B28;
+
+$highlightBg: rgba(167, 139, 250, 0.16) !default;
+$highlightTextColor: rgba(255, 255, 255, 0.87) !default;
+$highlightFocusBg: rgba($primaryColor, 0.24) !default;
+
+@import './variables';
+@import './_components';
+@import './_extensions';
