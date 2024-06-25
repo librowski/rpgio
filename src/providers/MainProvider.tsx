@@ -1,13 +1,9 @@
-import { PrimeReactProvider } from 'primereact/api';
+import { PrimeReactProvider } from "primereact/api";
 
 export function MainProvider({ children }: ProviderProps) {
-  return (
-    <PrimeReactProvider>
-      {children}
-    </PrimeReactProvider>
-  );
+	return <PrimeReactProvider>{children}</PrimeReactProvider>;
 }
 
-interface ProviderProps {
-  children: React.ReactNode;
-}
+type ProviderProps = {
+	children: React.ReactNode;
+};

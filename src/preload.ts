@@ -4,5 +4,7 @@
 import { contextBridge, ipcRenderer } from "electron";
 
 contextBridge.exposeInMainWorld("electronApi", {
-  openFile: () => ipcRenderer.invoke("openFile"),
-})
+  startSoundStream: () => ipcRenderer.send("startSoundStream"),
+  onChunkProcessed: (callback: any) =>
+    ipcRenderer.on("onChunkProcessed", (_event, value) => callback(value)),
+});

@@ -1,35 +1,32 @@
-import { AudioFile } from "./AudioFile";
-import { context } from "./globals";
+import { shuffle } from "@/utils/shuffle";
+import type { AudioFile } from "./AudioFile";
 
 export class Sound {
   private files: AudioFile[];
-  //  private name: string;
+  private fileQueue: AudioFile[];
 
   constructor({ files }: SoundOptions) {
     this.files = files;
-    //   this.name = name;
+    this.fileQueue = [...files];
   }
 
   play() {
-    try {
-      const audioNode = this.files[0].createAudioNode();
-      const gainNode = context.createGain();
-
-      audioNode.connect(gainNode);
-      gainNode.gain.value = 0.5;
-      gainNode.connect(context.destination);
-
-      audioNode.mediaElement.play();
-    } catch (error) {
-      console.error(error);
+    if (this.fileQueue.length === 0) {
+      this.fileQueue = [...this.files];
     }
-    // audioNode.mediaElement.addEventListener("ended", () => {
-    //   audioNode.disconnect();
-    // });
+
+    this.shuffle();
+    const file = this.fileQueue.shift();
+
+    file?.play();
+  }
+
+  private shuffle() {
+    this.files = shuffle(this.files);
   }
 }
 
-interface SoundOptions {
+type SoundOptions = {
   files: AudioFile[];
   name: string;
-}
+};

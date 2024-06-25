@@ -1,12 +1,14 @@
+import { external, getBuildConfig, getBuildDefine, pluginHotRestart } from './vite.base.config';
+import path from "node:path";
+
 import type { ConfigEnv, UserConfig } from 'vite';
 import { defineConfig, mergeConfig } from 'vite';
-import { getBuildConfig, getBuildDefine, external, pluginHotRestart } from './vite.base.config';
 
 // https://vitejs.dev/config
 export default defineConfig((env) => {
-  const forgeEnv = env as ConfigEnv<'build'>;
-  const { forgeConfigSelf } = forgeEnv;
-  const define = getBuildDefine(forgeEnv);
+  const forgeEnvironment = env as ConfigEnv<'build'>;
+  const { forgeConfigSelf } = forgeEnvironment;
+  const define = getBuildDefine(forgeEnvironment);
   const config: UserConfig = {
     build: {
       lib: {
@@ -18,13 +20,16 @@ export default defineConfig((env) => {
         external,
       },
     },
-    plugins: [pluginHotRestart('restart')],
     define,
+    plugins: [pluginHotRestart('restart')],
     resolve: {
       // Load the Node.js entry.
       mainFields: ['module', 'jsnext:main', 'jsnext'],
+      alias: {
+        "@": path.resolve(__dirname, "./src"),
+      }
     },
   };
 
-  return mergeConfig(getBuildConfig(forgeEnv), config);
+  return mergeConfig(getBuildConfig(forgeEnvironment), config);
 });
