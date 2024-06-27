@@ -1,0 +1,10 @@
+.add-button-container {
+  position: relative;
+  flex-grow: 1;
+}
+
+.add-button {
+  left: 50%;
+  bottom: 1rem;
+  transform: translateX(-50%);
+}
