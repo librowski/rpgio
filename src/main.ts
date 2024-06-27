@@ -9,13 +9,14 @@ if (require("electron-squirrel-startup")) {
 }
 
 export let mainWindow: BrowserWindow | null = null;
-const createWindow = () => {
+function createWindow() {
   mainWindow = new BrowserWindow({
     height: 600,
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
     },
     width: 800,
+    frame: false,
   });
 
   // and load the index.html of the app.
@@ -26,7 +27,7 @@ const createWindow = () => {
       path.join(__dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}/index.html`),
     );
   }
-};
+}
 
 app.on("ready", createWindow);
 

@@ -5,7 +5,7 @@ export class AudioFile {
   private gainNode: GainNode;
   private audioNodes = new Set<MediaElementAudioSourceNode>();
 
-  constructor(options: Options) {
+  constructor(options: AudioFileOptions) {
     this.path = options.path;
     this.gainNode = context.createGain();
     this.gainNode.gain.value = 1;
@@ -15,6 +15,12 @@ export class AudioFile {
   play() {
     const node = this.createAudioNode();
     node.mediaElement.play();
+  }
+
+  toJson(): AudioFileOptions {
+    return {
+      path: this.path,
+    };
   }
 
   private createAudioNode() {
@@ -32,6 +38,6 @@ export class AudioFile {
   }
 }
 
-type Options = {
+export type AudioFileOptions = {
   path: string;
 };
