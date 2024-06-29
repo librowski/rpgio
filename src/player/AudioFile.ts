@@ -1,6 +1,9 @@
+import { EventManager } from "./EventManager";
 import { context } from "./globals";
 
 export class AudioFile {
+  eventManager = new EventManager<"end">();
+
   private path: string;
   private gainNode: GainNode;
   private audioNodes = new Set<MediaElementAudioSourceNode>();
@@ -16,6 +19,12 @@ export class AudioFile {
     const node = this.createAudioNode();
     node.mediaElement.play();
   }
+  
+  mute() {
+    for (const audioNode of this.audioNodes) {
+      this.muteAudioNode(audioNode);
+    }
+  }
 
   toJson(): AudioFileOptions {
     return {
@@ -28,13 +37,23 @@ export class AudioFile {
     const audioNode = context.createMediaElementSource(audioElement);
 
     audioNode.connect(this.gainNode);
+
     this.audioNodes.add(audioNode);
     audioNode.addEventListener("ended", () => {
-      this.audioNodes.delete(audioNode);
-      audioNode.disconnect();
+      this.onEnd(audioNode);
     });
 
     return audioNode;
+  }
+
+  private muteAudioNode(audioNode: MediaElementAudioSourceNode) {
+    this.audioNodes.delete(audioNode);
+    audioNode.disconnect();
+  }
+
+  private onEnd(audioNode: MediaElementAudioSourceNode) {
+    this.muteAudioNode(audioNode)
+    this.eventManager.dispatchEvent("end");
   }
 }
 

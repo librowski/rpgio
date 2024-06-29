@@ -4,11 +4,11 @@ import { Scenes } from "./Scenes/Scenes";
 import { Sounds } from "./Sounds/Sounds";
 
 export function LeftPanel() {
-  return (
-    <div className={styles["left-panel"]}>
-      <Scenes />
-      <Sounds />
-      <AddButton />
-    </div>
-  );
+	return (
+		<div className={`${styles["left-panel"]} overflow-hidden`}>
+			<Scenes />
+			<Sounds />
+			<AddButton />
+		</div>
+	);
 }

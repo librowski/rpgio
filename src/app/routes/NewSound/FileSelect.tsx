@@ -1,25 +1,38 @@
 import { Text } from "@/components/Text/Text";
-import { FileUpload } from "primereact/fileupload";
+import { FileUpload, type FileUploadSelectEvent } from "primereact/fileupload";
 import { motion } from "framer-motion";
 import { Waveform } from "@phosphor-icons/react";
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "primereact/button";
-import { useSoundsStore } from "@/store/sounds";
+import { useSoundStore } from "@/store/sounds";
 import { Sound } from "@/player/Sound";
 import type { AudioFileOptions } from "@/player/AudioFile";
+import { useNewSoundFormContext } from "./useNewSoundForm";
 
-export function FileSelect({ name }: Props) {
-	const [files, setFiles] = useState<File[]>([]);
-	const isEmpty = files.length === 0;
+export function FileSelect() {
+	const { setValue, watch, getValues } = useNewSoundFormContext();
+	const { filePaths } = watch();
 
-	const { addSound } = useSoundsStore();
+	const isEmpty = filePaths.length === 0;
+
+	const { addSound } = useSoundStore();
 
 	function onAddSound() {
-		const fileOptionsList: AudioFileOptions[] = files.map(({ path }) => ({
+    const { filePaths, name } = getValues();
+		const fileOptionsList: AudioFileOptions[] = filePaths.map((path) => ({
 			path,
 		}));
+
 		addSound(new Sound({ fileOptionsList, name }));
+	}
+
+	function onSelectFiles({ files }: FileUploadSelectEvent) {
+		const filePaths = files.map(({ path }) => path);
+		setValue("filePaths", filePaths);
+	}
+
+	function onClear() {
+		setValue("filePaths", []);
 	}
 
 	return (
@@ -29,12 +42,13 @@ export function FileSelect({ name }: Props) {
 					Files
 				</Text>
 				<FileUpload
-					name="files"
 					multiple
 					accept="audio/*"
 					mode="advanced"
 					contentClassName={isEmpty ? "p-4" : "p-0"}
-					onSelect={({ files }) => setFiles(files)}
+					onSelect={onSelectFiles}
+					onClear={onClear}
+					cancelLabel="Clear"
 					uploadOptions={{
 						className: "hidden",
 					}}
@@ -61,19 +75,6 @@ export function FileSelect({ name }: Props) {
 					}}
 				/>
 			</div>
-
-			<div className="flex gap-2 px-2 justify-content-end">
-				<Link to={".."}>
-					<Button label="Cancel" severity="secondary" />
-				</Link>
-				<Link to={".."}>
-					<Button label="Create" onClick={onAddSound} />
-				</Link>
-			</div>
 		</>
 	);
 }
-
-type Props = {
-	name: string;
-};

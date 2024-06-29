@@ -1,18 +1,24 @@
 import type { Project } from "./Project";
-import { useSoundsStore } from "./sounds";
+import { useSceneStore as sceneStore } from "./scenes";
+import { useSoundStore as soundStore } from "./sounds";
+import { debounce } from "@/utils/debounce";
 
-export function saveProject() {
-  const { sounds } = useSoundsStore.getState();
+export const saveProject = debounce(() => {
+	const { sounds } = soundStore.getState();
+	const { scenes } = sceneStore.getState();
 
-  const projectJson: Project = {
-    name: "Some project",
-    sounds: sounds.map((sound) => sound.toJson()),
-  };
+	const projectJson: Project = {
+		name: "Some project",
+		sounds: sounds.map((sound) => sound.toJson()),
+		scenes: scenes.map((scene) => scene.toJson()),
+	};
 
-  try {
-    const projectString = JSON.stringify(projectJson);
-    localStorage.setItem("project", projectString);
-  } catch (error) {
-    console.error("Couldnt't parse project json", error);
-  }
-}
+	console.log("Saving project", projectJson);
+
+	try {
+		const projectString = JSON.stringify(projectJson);
+		localStorage.setItem("project", projectString);
+	} catch (error) {
+		console.error("Couldnt't parse project json", error);
+	}
+}, 1000);

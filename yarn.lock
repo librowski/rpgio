@@ -280,6 +280,45 @@
   dependencies:
     "@jridgewell/trace-mapping" "0.3.9"
 
+"@dnd-kit/accessibility@^3.1.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@dnd-kit/accessibility/-/accessibility-3.1.0.tgz#1054e19be276b5f1154ced7947fc0cb5d99192e0"
+  integrity sha512-ea7IkhKvlJUv9iSHJOnxinBcoOI3ppGnnL+VDJ75O45Nss6HtZd8IdN8touXPDtASfeI2T2LImb8VOZcL47wjQ==
+  dependencies:
+    tslib "^2.0.0"
+
+"@dnd-kit/core@^6.1.0":
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/@dnd-kit/core/-/core-6.1.0.tgz#e81a3d10d9eca5d3b01cbf054171273a3fe01def"
+  integrity sha512-J3cQBClB4TVxwGo3KEjssGEXNJqGVWx17aRTZ1ob0FliR5IjYgTxl5YJbKTzA6IzrtelotH19v6y7uoIRUZPSg==
+  dependencies:
+    "@dnd-kit/accessibility" "^3.1.0"
+    "@dnd-kit/utilities" "^3.2.2"
+    tslib "^2.0.0"
+
+"@dnd-kit/modifiers@^7.0.0":
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/@dnd-kit/modifiers/-/modifiers-7.0.0.tgz#229666dd4e8b9487f348035117f993af755b3db9"
+  integrity sha512-BG/ETy3eBjFap7+zIti53f0PCLGDzNXyTmn6fSdrudORf+OH04MxrW4p5+mPu4mgMk9kM41iYONjc3DOUWTcfg==
+  dependencies:
+    "@dnd-kit/utilities" "^3.2.2"
+    tslib "^2.0.0"
+
+"@dnd-kit/sortable@^8.0.0":
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/@dnd-kit/sortable/-/sortable-8.0.0.tgz#086b7ac6723d4618a4ccb6f0227406d8a8862a96"
+  integrity sha512-U3jk5ebVXe1Lr7c2wU7SBZjcWdQP+j7peHJfCspnA81enlu88Mgd7CC8Q+pub9ubP7eKVETzJW+IBAhsqbSu/g==
+  dependencies:
+    "@dnd-kit/utilities" "^3.2.2"
+    tslib "^2.0.0"
+
+"@dnd-kit/utilities@^3.2.2":
+  version "3.2.2"
+  resolved "https://registry.yarnpkg.com/@dnd-kit/utilities/-/utilities-3.2.2.tgz#5a32b6af356dc5f74d61b37d6f7129a4040ced7b"
+  integrity sha512-+MKAJEOfaBe5SmV6t34p80MMKhjvUz0vRrvVJbPT0WElzaOJ/1xs+D+KDv+tD/NE5ujfrChEcshd4fLn0wpiqg==
+  dependencies:
+    tslib "^2.0.0"
+
 "@electron-forge/cli@^7.4.0":
   version "7.4.0"
   resolved "https://registry.yarnpkg.com/@electron-forge/cli/-/cli-7.4.0.tgz#db16f4bc678d1f6cec8890cdf86041e9c8336350"
@@ -2758,10 +2797,30 @@ junk@^3.1.0:
   resolved "https://registry.yarnpkg.com/junk/-/junk-3.1.0.tgz#31499098d902b7e98c5d9b9c80f43457a88abfa1"
   integrity sha512-pBxcB3LFc8QVgdggvZWyeys+hnrNWg4OcZIU/1X59k5jQdLBlCsYGRQaz234SqoRLTCgMH00fY0xRJH+F9METQ==
 
+just-debounce-it@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/just-debounce-it/-/just-debounce-it-3.2.0.tgz#4352265f4af44188624ce9fdbc6bff4d49c63a80"
+  integrity sha512-WXzwLL0745uNuedrCsCs3rpmfD6DBaf7uuVwaq98/8dafURfgQaBsSpjiPp5+CW6Vjltwy9cOGI6qE71b3T8iQ==
+
+just-insert@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/just-insert/-/just-insert-3.2.0.tgz#31e04c37dc5748fb36492c6515d9eaf8c7378312"
+  integrity sha512-M3E0zgm9kCPPNspm9asIGkYccZHotP0pJ6btlVebN4m46FPLE3dpAyUJWkhxLMYp9F3qq8uBNuw9JAeifrg+oA==
+
+just-random-integer@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/just-random-integer/-/just-random-integer-4.2.0.tgz#4a8520e21007466df63c31f69a943efbb1ccc648"
+  integrity sha512-MfabwcY+RQNCVCmZZkTYDpk/AT315+7Rkoj59+abzYxgUOiSdoZ4G5hbK/4VZqdHScu95Wnd+1MqxyUETM6xuQ==
+
 just-shuffle@^4.2.0:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/just-shuffle/-/just-shuffle-4.2.0.tgz#795c09dbac1f9e94e797efd10a7ef537363c8903"
   integrity sha512-/dDmNseAWLf3XkFY9xf3/BdQoiy27LNUy/7uG4zdSAX526nIHMYPYeJ4pN4lT1/pgNEX8XCXPtUB6gJqTpBEng==
+
+just-throttle@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/just-throttle/-/just-throttle-4.2.0.tgz#5a22da10a4bdb906d2583400eff2fe3fbd9f9662"
+  integrity sha512-/iAZv1953JcExpvsywaPKjSzfTiCLqeguUTE6+VmK15mOcwxBx7/FHrVvS4WEErMR03TRazH8kcBSHqMagYIYg==
 
 just-truncate@^2.2.0:
   version "2.2.0"
@@ -3550,6 +3609,11 @@ react-dom@^18.2.0:
     loose-envify "^1.1.0"
     scheduler "^0.23.2"
 
+react-hook-form@^7.52.0:
+  version "7.52.0"
+  resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-7.52.0.tgz#e52b33043e283719586b9dd80f6d51b68dd3999c"
+  integrity sha512-mJX506Xc6mirzLsmXUJyqlAI3Kj9Ph2RhplYhUVffeOQSnubK2uVqBFOBJmvKikvbFV91pxVXmDiR+QMF19x6A==
+
 react-is@^16.13.1:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
@@ -4187,7 +4251,7 @@ ts-node@^10.0.0:
     v8-compile-cache-lib "^3.0.1"
     yn "3.1.1"
 
-tslib@^2.4.0:
+tslib@^2.0.0, tslib@^2.4.0:
   version "2.6.3"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.6.3.tgz#0438f810ad7a9edcde7a241c3d80db693c8cbfe0"
   integrity sha512-xNvxJEOUiWPGhUuUdQgAJPKOOJfGnIyKySOc09XkKsgdUV/3E2zvwZYdejjmRgPCgcym1juLH3226yA7sEFJKQ==

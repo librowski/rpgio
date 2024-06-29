@@ -1,8 +1,12 @@
 import { shuffle } from "@/utils/shuffle";
 import { AudioFile } from "./AudioFile";
 import type { AudioFileOptions } from "./AudioFile";
+import { EventManager } from "./EventManager";
+import { uuid } from "@/utils/uuid";
 
 export class Sound {
+	id = uuid();
+	eventManager = new EventManager<"end">();
 	name: string;
 
 	private files: AudioFile[];
@@ -24,7 +28,20 @@ export class Sound {
 		this.shuffle();
 		const file = this.fileQueue.shift();
 
-		file?.play();
+		if (!file) {
+			return;
+		}
+
+		file.eventManager.addEventHandler("end", () => {
+			this.eventManager.dispatchEvent("end");
+		});
+		file.play();
+	}
+
+	mute() {
+		for (const file of this.files) {
+			file.mute();
+		}
 	}
 
 	toJson(): SoundOptions {
