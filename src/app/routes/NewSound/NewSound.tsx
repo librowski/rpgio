@@ -8,8 +8,11 @@ import styles from "./NewSound.module.scss";
 import { Button } from "primereact/button";
 import { FileSelect } from "./FileSelect";
 import { SceneSelect } from "./SceneSelect";
+import { useState } from "react";
 
 export function NewSound() {
+	const [name, setName] = useState("");
+
 	return (
 		<motion.div
 			animate
@@ -29,18 +32,16 @@ export function NewSound() {
 					<Text<"label"> tag="label" htmlFor="name">
 						Name
 					</Text>
-					<InputText id="name" />
+					<InputText
+						id="name"
+						value={name}
+						onChange={(e) => setName(e.target.value)}
+					/>
 				</div>
 				<SceneSelect />
 				<Button className="flex-1" label="Choose Key" />
 			</div>
-			<FileSelect />
-			<div className="flex gap-2 px-2 justify-content-end">
-				<Link to={".."}>
-					<Button label="Cancel" severity="secondary" />
-				</Link>
-				<Button label="Create" />
-			</div>
+			<FileSelect name={name} />
 		</motion.div>
 	);
 }

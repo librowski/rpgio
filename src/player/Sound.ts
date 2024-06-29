@@ -3,42 +3,43 @@ import { AudioFile } from "./AudioFile";
 import type { AudioFileOptions } from "./AudioFile";
 
 export class Sound {
-  private name: string;
-  private files: AudioFile[];
-  private fileQueue: AudioFile[];
+	name: string;
 
-  constructor({ fileOptionsList, name }: SoundOptions) {
-    this.name = name;
+	private files: AudioFile[];
+	private fileQueue: AudioFile[];
 
-    const files = fileOptionsList.map((options) => new AudioFile(options));
-    this.files = files;
-    this.fileQueue = [...files];
-  }
+	constructor({ fileOptionsList, name }: SoundOptions) {
+		this.name = name;
 
-  play() {
-    if (this.fileQueue.length === 0) {
-      this.fileQueue = [...this.files];
-    }
+		const files = fileOptionsList.map((options) => new AudioFile(options));
+		this.files = files;
+		this.fileQueue = [...files];
+	}
 
-    this.shuffle();
-    const file = this.fileQueue.shift();
+	play() {
+		if (this.fileQueue.length === 0) {
+			this.fileQueue = [...this.files];
+		}
 
-    file?.play();
-  }
+		this.shuffle();
+		const file = this.fileQueue.shift();
 
-  toJson(): SoundOptions {
-    return {
-      name: this.name,
-      fileOptionsList: this.files.map((file) => file.toJson()),
-    };
-  }
+		file?.play();
+	}
 
-  private shuffle() {
-    this.files = shuffle(this.files);
-  }
+	toJson(): SoundOptions {
+		return {
+			name: this.name,
+			fileOptionsList: this.files.map((file) => file.toJson()),
+		};
+	}
+
+	private shuffle() {
+		this.files = shuffle(this.files);
+	}
 }
 
 export type SoundOptions = {
-  fileOptionsList: AudioFileOptions[];
-  name: string;
+	fileOptionsList: AudioFileOptions[];
+	name: string;
 };

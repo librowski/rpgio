@@ -1,20 +1,23 @@
-import { AudioFile } from "../../../player/AudioFile";
 import { PanelSection } from "../../../components/PanelSection/PanelSection";
 import { Button } from "primereact/button";
-
-const path = "/home/jl/Downloads/104183__ekokubza123__punch.wav";
-
-async function onOpen() {
-  const sound = new AudioFile({ path });
-  sound.play();
-}
+import { useSoundsStore } from "@/store/sounds";
 
 export function Sounds() {
-  return (
-    <PanelSection header="Sounds">
-      <Button rounded onClick={onOpen}>
-        Graj
-      </Button>
-    </PanelSection>
-  );
+	const { sounds } = useSoundsStore();
+
+	return (
+		<PanelSection header="Sounds">
+			{sounds.map((sound) => {
+				return (
+					<Button key={sound.name} rounded onClick={onClick}>
+						{sound.name}
+					</Button>
+				);
+
+				function onClick() {
+					sound.play();
+				}
+			})}
+		</PanelSection>
+	);
 }
