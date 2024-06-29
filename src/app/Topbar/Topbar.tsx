@@ -8,26 +8,26 @@ import styles from "./Topbar.module.scss";
 import { Toolbar } from "primereact/toolbar";
 
 export function Topbar() {
-	return <Toolbar className={styles.topbar} end={End} start={Start} />;
+  return <Toolbar className={styles.topbar} end={End} start={Start} />;
 }
 
 function Start() {
-	return (
-		<div className="flex gap-2">
-			<Text color="accent" weight="light">
-				Rpgio
-			</Text>
-			<Text weight="light">v2.137</Text>
-		</div>
-	);
+  return (
+    <div className="flex gap-2">
+      <Text color="accent" weight="bold">
+        Rpgio
+      </Text>
+      <Text weight="thin">v2.137</Text>
+    </div>
+  );
 }
 
 function End() {
-	return (
-		<div className="flex">
-			<IconButton icon={Gear} />
-			<IconButton icon={CornersOut} />
-			<IconButton icon={X} />
-		</div>
-	);
+  return (
+    <div className="flex">
+      <IconButton icon={Gear} />
+      <IconButton icon={CornersOut} />
+      <IconButton icon={X} />
+    </div>
+  );
 }

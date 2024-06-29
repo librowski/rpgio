@@ -1,33 +1,13 @@
-import type { MenuItem } from "primereact/menuitem";
 import { SpeedDial } from "primereact/speeddial";
-import { Lightning, Image, Waveform } from "@phosphor-icons/react";
 import styles from "./AddButton.module.scss";
 import { Tooltip } from "primereact/tooltip";
-
-const menuItems: MenuItem[] = [
-  {
-    label: "Add actions",
-    icon: () => <Lightning />,
-    command: () => { },
-    disabled: true,
-  },
-  {
-    label: "Add sounds",
-    icon: () => <Waveform />,
-    command: () => { },
-    disabled: false,
-  },
-  {
-    label: "Add scenes",
-    icon: () => <Image />,
-    command: () => { },
-    disabled: true,
-  },
-];
+import { useAddButtonItems } from "./useAddButtonItems";
 
 export function AddButton() {
   const addButtonClassName = styles["add-button"];
   const tooltipTarget = `.${addButtonClassName} .p-speeddial-action`;
+
+  const menuItems = useAddButtonItems();
 
   return (
     <div className={styles["add-button-container"]}>

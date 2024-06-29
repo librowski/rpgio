@@ -1,9 +1,11 @@
 import { PrimeReactProvider } from "primereact/api";
+import type { ProviderProps } from "./ProviderProps";
+import { RouterProvider } from "./RouterProvider";
 
 export function MainProvider({ children }: ProviderProps) {
-	return <PrimeReactProvider>{children}</PrimeReactProvider>;
+  return (
+    <PrimeReactProvider>
+      <RouterProvider>{children}</RouterProvider>
+    </PrimeReactProvider>
+  );
 }
-
-type ProviderProps = {
-	children: React.ReactNode;
-};

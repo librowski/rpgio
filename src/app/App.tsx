@@ -1,13 +1,15 @@
 import "./App.scss";
 import { MainProvider } from "../providers/MainProvider";
 
-import { Layout } from "./Layout";
+import { Topbar } from "./Topbar/Topbar";
 
 function App() {
 	return (
-		<MainProvider>
-			<Layout />
-		</MainProvider>
+		<div className="flex flex-column max-w-screen max-h-screen w-screen h-screen overflow-hidden">
+			<MainProvider>
+				<Topbar />
+			</MainProvider>
+		</div>
 	);
 }
 

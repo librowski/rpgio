@@ -56,27 +56,27 @@ $roundedButtonBorderRadius: 2rem;
 
 /// Alpha level of a text button background in hover state
 /// @group button
-$textButtonHoverBgOpacity: .04;
+$textButtonHoverBgOpacity:.04;
 
 /// Alpha level of a text button background in active state
 /// @group button
-$textButtonActiveBgOpacity: .16;
+$textButtonActiveBgOpacity:.16;
 
 /// Border style of a outlined button
 /// @group button
-$outlinedButtonBorder: 1px solid;
+$outlinedButtonBorder:1px solid;
 
 /// Text color of a plain text button
 /// @group button
-$plainButtonTextColor: #6c757d;
+$plainButtonTextColor:#6c757d;
 
 /// Background color of a plain text button in hover state
 /// @group button
-$plainButtonHoverBgColor: #e9ecef;
+$plainButtonHoverBgColor:#e9ecef;
 
 /// Background color of a plain text button in active state
 /// @group button
-$plainButtonActiveBgColor: #dee2e6;
+$plainButtonActiveBgColor:#dee2e6;
 
 /// Background of a secondary button
 /// @group button
@@ -240,43 +240,43 @@ $warningButtonFocusShadow: 0 0 0 0.2rem lighten($warningButtonBg, 35%);
 
 /// Background of a help button
 /// @group button
-$helpButtonBg: #9C27B0;
+$helpButtonBg:#9C27B0;
 
 /// Text color of a help button
 /// @group button
-$helpButtonTextColor: #ffffff;
+$helpButtonTextColor:#ffffff;
 
 /// Border of a help button
 /// @group button
-$helpButtonBorder: 1px solid #9C27B0;
+$helpButtonBorder:1px solid #9C27B0;
 
 /// Background of a help help in hover state
 /// @group button
-$helpButtonHoverBg: #8E24AA;
+$helpButtonHoverBg:#8E24AA;
 
 /// Text color of a help button in hover state
 /// @group button
-$helpButtonTextHoverColor: #ffffff;
+$helpButtonTextHoverColor:#ffffff;
 
 /// Border color of a help button in hover state
 /// @group button
-$helpButtonHoverBorderColor: #8E24AA;
+$helpButtonHoverBorderColor:#8E24AA;
 
 /// Background of a help button in pressed state
 /// @group button
-$helpButtonActiveBg: #7B1FA2;
+$helpButtonActiveBg:#7B1FA2;
 
 /// Text color of a help button in pressed state
 /// @group button
-$helpButtonTextActiveColor: #ffffff;
+$helpButtonTextActiveColor:#ffffff;
 
 /// Border color of a help button in pressed state
 /// @group button
-$helpButtonActiveBorderColor: #7B1FA2;
+$helpButtonActiveBorderColor:#7B1FA2;
 
 /// Box shadow of a help button in focused state
 /// @group button
-$helpButtonFocusShadow: 0 0 0 0.2rem #CE93D8;
+$helpButtonFocusShadow:0 0 0 0.2rem #CE93D8;
 
 /// Background of a danger button
 /// @group button
@@ -320,15 +320,15 @@ $dangerButtonFocusShadow: 0 0 0 0.2rem lighten($dangerButtonBg, 35%);
 
 /// Text color of a link button
 /// @group button
-$linkButtonColor: $primaryDarkerColor;
+$linkButtonColor:$primaryDarkerColor;
 
 /// Text color of a link button in hover state
 /// @group button
-$linkButtonHoverColor: $primaryDarkerColor;
+$linkButtonHoverColor:$primaryDarkerColor;
 
 /// Text decoration of a link button in hover state
 /// @group button
-$linkButtonTextHoverDecoration: underline;
+$linkButtonTextHoverDecoration:underline;
 
 /// Box shadow of a link button in focused state
 /// @group button

@@ -12,7 +12,7 @@ $colors: (
   "red": #d82a13,
   "primary": $primaryColor) !default;
 
-$fontFamily: "DM Sans",
+$fontFamily: "DM Sans SemiBold",
   sans-serif;
 $fontSize: 1rem !default;
 $fontWeight: normal !default;
@@ -60,7 +60,7 @@ $actionIconHoverColor: #dedede !default;
 $actionIconBorderRadius: 50% !default;
 
 //input field (e.g. inputtext, spinner, inputmask)
-$inputPadding: 0.429rem 0.429rem !default;
+$inputPadding: 0.6rem 0.6rem !default;
 $inputTextFontSize: 1rem !default;
 $inputBg: #191919 !default;
 $inputTextColor: $textColor !default;
@@ -114,14 +114,14 @@ $passwordMediumBg: #ffb74d !default;
 $passwordStrongBg: #aed581 !default;
 
 //button
-$buttonPadding: 0.429rem 1rem !default;
+$buttonPadding: 0.5rem 1rem !default;
 $buttonIconOnlyWidth: 2.357rem !default;
 $buttonIconOnlyPadding: 0.429rem 0 !default;
 $buttonBg: $primaryColor !default;
 $buttonTextColor: $primaryTextColor !default;
 $buttonBorder: 1px solid $primaryColor !default;
 $buttonHoverBg: $primaryDarkColor !default;
-$buttonTextHoverColor: $primaryTextColor !default;
+$buttonTextHoverColor: $primaryLightestColor !default;
 $buttonHoverBorderColor: $primaryDarkColor !default;
 $buttonActiveBg: $primaryDarkerColor !default;
 $buttonTextActiveColor: $primaryTextColor !default;
@@ -129,7 +129,7 @@ $buttonActiveBorderColor: $primaryDarkerColor !default;
 $raisedButtonShadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2),
   0px 2px 2px 0px rgba(0, 0, 0, 0.14),
   0px 1px 5px 0px rgba(0, 0, 0, 0.12) !default;
-$roundedButtonBorderRadius: 2rem !default;
+$roundedButtonBorderRadius: 4px !default;
 
 $textButtonHoverBgOpacity: 0.04 !default;
 $textButtonActiveBgOpacity: 0.16 !default;
@@ -616,9 +616,10 @@ $confirmPopupContentPadding: $panelContentPadding !default;
 $confirmPopupFooterPadding: 0 1rem 0.571rem 1rem !default;
 
 //tooltip
-$tooltipBg: #4c4c4c !default;
+$tooltipBg: #191919 !default;
 $tooltipTextColor: #dedede !default;
 $tooltipPadding: $inputPadding !default;
+$tooltipOffset: 0.5rem !default;
 
 //steps
 $stepsItemBg: #191919 !default;

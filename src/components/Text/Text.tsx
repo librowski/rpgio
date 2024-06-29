@@ -1,12 +1,12 @@
-import type { HTMLAttributes, ReactNode } from "react";
+import type { HTMLAttributes, LabelHTMLAttributes, ReactNode } from "react";
 import { createElement } from "react";
 
 import styles from "./Text.module.scss";
 
 import { clsx } from "clsx";
 
-export function Text(props: Partial<TextProps>) {
-	const { tag, weight, size, children, color, ...rest } = {
+export function Text<T extends TextTag = "span">(props: Partial<TextProps<T>>) {
+	const { tag, weight, size, children, color, className, ...rest } = {
 		...defaultTextCSSProps,
 		...props,
 	};
@@ -19,6 +19,7 @@ export function Text(props: Partial<TextProps>) {
 				styles[`size-${size}`],
 				styles[`color-${color}`],
 				styles.text,
+				className,
 			),
 			...rest,
 		},
@@ -26,18 +27,20 @@ export function Text(props: Partial<TextProps>) {
 	);
 }
 
-type TextProps = {
-	size: "small" | "medium" | "large";
-	weight: "light" | "regular" | "bold";
+type TextProps<T extends TextTag> = {
+	size: "small" | "medium" | "large" | "extra-large";
+	weight: "semi-bold" | "thin" | "extra-light" | "regular" | "bold";
 	color: "accent" | "primary" | "secondary";
-	tag: "p" | "span" | "h1" | "h2" | "h3" | "h4";
-	className: string;
+	tag: T;
+	className?: string;
 	children?: ReactNode | undefined;
-} & HTMLAttributes<HTMLParagraphElement>;
+} & (T extends "label"
+	? LabelHTMLAttributes<HTMLLabelElement>
+	: HTMLAttributes<T>);
 
-type TextCSSProps = Omit<TextProps, "className">;
+type TextTag = "p" | "span" | "h1" | "h2" | "h3" | "h4" | "label";
 
-const defaultTextCSSProps: TextCSSProps = {
+const defaultTextCSSProps: TextProps<"span"> = {
 	color: "secondary",
 	size: "medium",
 	tag: "span",

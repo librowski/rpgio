@@ -2,21 +2,23 @@
 
 .text {
   margin: 0;
-  font-family: "DM Sans", sans-serif;
   user-select: none;
   -webkit-user-select: none;
 }
 
 $text-weights: (
-  "light": 300,
-  "regular": 400,
-  "bold": 700
+  "extra-light": "DM Sans ExtraLight",
+  "thin": "DM Sans Thin",
+  "regular": "DM Sans Regular",
+  "bold": "DM Sans Bold",
+  "semi-bold": "DM Sans SemiBold"
 );
 
 $text-sizes: (
   "small": 0.5,
   "medium": 1,
-  "large": 1.5
+  "large": 1.5,
+  "extra-large": 2
 );
 
 $text-colors: (
@@ -27,7 +29,7 @@ $text-colors: (
 
 @each $name, $weight in $text-weights {
   .weight-#{$name} {
-    font-weight: $weight;
+    font-family: $weight;
   }
 }
 
