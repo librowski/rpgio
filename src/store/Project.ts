@@ -1,8 +1,8 @@
-import type { SceneOptions } from "@/player/Scene";
-import type { SoundOptions } from "@/player/Sound";
+import type { SceneData } from "@/player/Scene";
+import type { SoundData } from "@/player/Sound";
 
 export type Project = {
 	name: string;
-	sounds: SoundOptions[];
-	scenes: SceneOptions[];
+	sounds: SoundData[];
+	scenes: SceneData[];
 };

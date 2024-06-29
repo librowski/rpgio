@@ -8,8 +8,8 @@ export class Sound {
 	id = uuid();
 	eventManager = new EventManager<"end">();
 	name: string;
+	files: AudioFile[];
 
-	private files: AudioFile[];
 	private fileQueue: AudioFile[];
 
 	constructor({ fileOptionsList, name }: SoundOptions) {
@@ -44,10 +44,10 @@ export class Sound {
 		}
 	}
 
-	toJson(): SoundOptions {
+	toJson(): SoundData {
 		return {
 			name: this.name,
-			fileOptionsList: this.files.map((file) => file.toJson()),
+			filePaths: this.files.map(({ path }) => path),
 		};
 	}
 
@@ -59,4 +59,8 @@ export class Sound {
 export type SoundOptions = {
 	fileOptionsList: AudioFileOptions[];
 	name: string;
+};
+
+export type SoundData = Omit<SoundOptions, "fileOptionsList"> & {
+	filePaths: string[];
 };

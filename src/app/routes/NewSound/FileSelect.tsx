@@ -2,29 +2,13 @@ import { Text } from "@/components/Text/Text";
 import { FileUpload, type FileUploadSelectEvent } from "primereact/fileupload";
 import { motion } from "framer-motion";
 import { Waveform } from "@phosphor-icons/react";
-import { Link } from "react-router-dom";
-import { Button } from "primereact/button";
-import { useSoundStore } from "@/store/sounds";
-import { Sound } from "@/player/Sound";
-import type { AudioFileOptions } from "@/player/AudioFile";
 import { useNewSoundFormContext } from "./useNewSoundForm";
 
 export function FileSelect() {
-	const { setValue, watch, getValues } = useNewSoundFormContext();
+	const { setValue, watch } = useNewSoundFormContext();
 	const { filePaths } = watch();
 
 	const isEmpty = filePaths.length === 0;
-
-	const { addSound } = useSoundStore();
-
-	function onAddSound() {
-    const { filePaths, name } = getValues();
-		const fileOptionsList: AudioFileOptions[] = filePaths.map((path) => ({
-			path,
-		}));
-
-		addSound(new Sound({ fileOptionsList, name }));
-	}
 
 	function onSelectFiles({ files }: FileUploadSelectEvent) {
 		const filePaths = files.map(({ path }) => path);

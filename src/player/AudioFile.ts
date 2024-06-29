@@ -2,61 +2,61 @@ import { EventManager } from "./EventManager";
 import { context } from "./globals";
 
 export class AudioFile {
-  eventManager = new EventManager<"end">();
+	eventManager = new EventManager<"end">();
+	path: string;
 
-  private path: string;
-  private gainNode: GainNode;
-  private audioNodes = new Set<MediaElementAudioSourceNode>();
+	private gainNode: GainNode;
+	private audioNodes = new Set<MediaElementAudioSourceNode>();
 
-  constructor(options: AudioFileOptions) {
-    this.path = options.path;
-    this.gainNode = context.createGain();
-    this.gainNode.gain.value = 1;
-    this.gainNode.connect(context.destination);
-  }
+	constructor(options: AudioFileOptions) {
+		this.path = options.path;
+		this.gainNode = context.createGain();
+		this.gainNode.gain.value = 1;
+		this.gainNode.connect(context.destination);
+	}
 
-  play() {
-    const node = this.createAudioNode();
-    node.mediaElement.play();
-  }
-  
-  mute() {
-    for (const audioNode of this.audioNodes) {
-      this.muteAudioNode(audioNode);
-    }
-  }
+	play() {
+		const node = this.createAudioNode();
+		node.mediaElement.play();
+	}
 
-  toJson(): AudioFileOptions {
-    return {
-      path: this.path,
-    };
-  }
+	mute() {
+		for (const audioNode of this.audioNodes) {
+			this.muteAudioNode(audioNode);
+		}
+	}
 
-  private createAudioNode() {
-    const audioElement = new Audio(`audio://${this.path}`);
-    const audioNode = context.createMediaElementSource(audioElement);
+	toJson(): AudioFileOptions {
+		return {
+			path: this.path,
+		};
+	}
 
-    audioNode.connect(this.gainNode);
+	private createAudioNode() {
+		const audioElement = new Audio(`audio://${this.path}`);
+		const audioNode = context.createMediaElementSource(audioElement);
 
-    this.audioNodes.add(audioNode);
-    audioNode.addEventListener("ended", () => {
-      this.onEnd(audioNode);
-    });
+		audioNode.connect(this.gainNode);
 
-    return audioNode;
-  }
+		this.audioNodes.add(audioNode);
+		audioNode.addEventListener("ended", () => {
+			this.onEnd(audioNode);
+		});
 
-  private muteAudioNode(audioNode: MediaElementAudioSourceNode) {
-    this.audioNodes.delete(audioNode);
-    audioNode.disconnect();
-  }
+		return audioNode;
+	}
 
-  private onEnd(audioNode: MediaElementAudioSourceNode) {
-    this.muteAudioNode(audioNode)
-    this.eventManager.dispatchEvent("end");
-  }
+	private muteAudioNode(audioNode: MediaElementAudioSourceNode) {
+		this.audioNodes.delete(audioNode);
+		audioNode.disconnect();
+	}
+
+	private onEnd(audioNode: MediaElementAudioSourceNode) {
+		this.muteAudioNode(audioNode);
+		this.eventManager.dispatchEvent("end");
+	}
 }
 
 export type AudioFileOptions = {
-  path: string;
+	path: string;
 };

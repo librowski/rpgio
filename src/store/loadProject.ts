@@ -1,8 +1,9 @@
-import { Sound } from "@/player/Sound";
+import { Sound, SoundOptions } from "@/player/Sound";
 import type { Project } from "./Project";
 import { useSoundStore as soundStore } from "./sounds";
 import { useSceneStore as sceneStore } from "./scenes";
 import { Scene } from "@/player/Scene";
+import { SoundSchedulerOptions } from "@/player/SoundScheduler";
 
 export function loadProject() {
 	let projectJson: Project = EMPTY_PROJECT;
@@ -18,12 +19,39 @@ export function loadProject() {
 		console.error("Couldnt't parse project json", error);
 	}
 
-	const sounds = projectJson.sounds.map((sound) => new Sound(sound));
+	const sounds = projectJson.sounds.map(
+		({ filePaths, ...sound }) =>
+			new Sound({
+				...sound,
+				fileOptionsList: filePaths.map((path) => ({ path })),
+			}),
+	);
 	soundStore.setState({
 		sounds,
 	});
 
-	const scenes = projectJson.scenes.map((scene) => new Scene(scene));
+	const scenes = projectJson.scenes.map(({ soundSchedules, ...scene }) => {
+		return new Scene({
+			...scene,
+			soundSchedules: soundSchedules.map(
+				({ soundId, ...data }): SoundSchedulerOptions => {
+					const sound = soundStore.getState().getById(soundId);
+
+					if (!sound) {
+						throw new Error(`Could not find sound with id ${soundId}`);
+					}
+
+					return {
+						...data,
+						soundOptions: {
+							fileOptionsList: sound.files.map(({ path }) => ({ path })),
+							name: sound.name,
+						},
+					};
+				},
+			),
+		});
+	});
 	sceneStore.setState({
 		scenes,
 	});

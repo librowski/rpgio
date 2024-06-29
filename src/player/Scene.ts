@@ -1,15 +1,23 @@
-import { uuid } from "@/utils/uuid";
 import { SoundScheduler } from "./SoundScheduler";
-import type { SoundSchedulerOptions } from "./SoundScheduler";
+import type {
+	SoundSchedulerData,
+	SoundSchedulerOptions,
+} from "./SoundScheduler";
 import { useSceneStore } from "@/store/scenes";
 
 export class Scene {
-	id = uuid();
+	id: string;
 	name: string;
 	image: string;
 	soundSchedulers: SoundScheduler[] = [];
 
-	constructor({ name, image, soundSchedules: automatedSounds }: SceneOptions) {
+	constructor({
+		id,
+		name,
+		image,
+		soundSchedules: automatedSounds,
+	}: SceneOptions) {
+		this.id = id;
 		this.name = name;
 		this.image = image;
 
@@ -34,8 +42,9 @@ export class Scene {
 		}
 	}
 
-	toJson(): SceneOptions {
+	toJson(): SceneData {
 		return {
+			id: this.id,
 			name: this.name,
 			image: this.image,
 			soundSchedules: this.soundSchedulers.map((soundScheduler) =>
@@ -46,7 +55,12 @@ export class Scene {
 }
 
 export type SceneOptions = {
+	id: string;
 	name: string;
 	image: string;
 	soundSchedules: SoundSchedulerOptions[];
+};
+
+export type SceneData = Omit<SceneOptions, "soundSchedules"> & {
+	soundSchedules: SoundSchedulerData[];
 };

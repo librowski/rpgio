@@ -3,14 +3,16 @@ import type { SoundOptions } from "./Sound";
 import { randomFloat } from "@/utils/random-float";
 
 export class SoundScheduler {
+	id: string;
 	sound: Sound;
 	loop: boolean;
 	interval?: [number, number];
 
-	constructor({ soundOptions, loop, interval }: SoundSchedulerOptions) {
+	constructor({ soundOptions, loop, interval, id }: SoundSchedulerOptions) {
 		this.sound = new Sound(soundOptions);
 		this.loop = loop;
 		this.interval = interval;
+		this.id = id;
 	}
 
 	start() {
@@ -26,9 +28,10 @@ export class SoundScheduler {
 		this.sound.eventManager.removeEventHandler("end", this.onEnd);
 	}
 
-	toJson(): SoundSchedulerOptions {
+	toJson(): SoundSchedulerData {
 		return {
-			soundOptions: this.sound.toJson(),
+			id: this.id,
+			soundId: this.sound.id,
 			loop: this.loop,
 			interval: this.interval,
 		};
@@ -46,7 +49,12 @@ export class SoundScheduler {
 }
 
 export type SoundSchedulerOptions = {
+	id: string;
 	soundOptions: SoundOptions;
 	loop: boolean;
 	interval?: [number, number];
+};
+
+export type SoundSchedulerData = Omit<SoundSchedulerOptions, "soundOptions"> & {
+	soundId: string;
 };
