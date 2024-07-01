@@ -16,7 +16,7 @@ export function SoundSchedules() {
 	const { sounds } = useSoundStore();
 	const options = sounds.map(soundToOption);
 
-	const { control } = useNewSceneFormContext();
+	const { control, register, setValue } = useNewSceneFormContext();
 	const { fields, append, remove, update } = useFieldArray({
 		control,
 		name: "soundSchedules",
@@ -28,8 +28,8 @@ export function SoundSchedules() {
 				const {
 					id,
 					soundId,
-					interval: [from, to] = [],
 					loop,
+					interval: [from, to],
 				} = field;
 
 				function updateSchedule(
@@ -49,8 +49,20 @@ export function SoundSchedules() {
 							}}
 							value={soundId}
 						/>
-						<InputNumber id="from" value={from ?? 0} />
-						<InputNumber id="to" value={to ?? 0} />
+						<InputNumber
+							id="from"
+							value={from}
+							onChange={({ value }) =>
+								value && setValue(`soundSchedules.${index}.interval.0`, value)
+							}
+						/>
+						<InputNumber
+							id="to"
+							value={to}
+							onChange={({ value }) =>
+								value && setValue(`soundSchedules.${index}.interval.1`, value)
+							}
+						/>
 						<Checkbox id="loop" checked={loop} />
 						<IconButton icon={Trash} onClick={() => remove(index)} />
 					</motion.div>
@@ -59,7 +71,12 @@ export function SoundSchedules() {
 			<IconButton
 				icon={Plus}
 				onClick={() =>
-					append({ id: uuid(), soundId: sounds[0].id, loop: true })
+					append({
+						id: uuid(),
+						soundId: sounds[0].id,
+						loop: true,
+						interval: [0, 0],
+					})
 				}
 			/>
 		</div>

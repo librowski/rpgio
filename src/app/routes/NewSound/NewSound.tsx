@@ -13,6 +13,7 @@ import { FormProvider } from "react-hook-form";
 import type { AudioFileOptions } from "@/player/AudioFile";
 import { useSoundStore } from "@/store/sounds";
 import { Sound } from "@/player/Sound";
+import { uuid } from "@/utils/uuid";
 
 export function NewSound() {
 	const methods = useNewSoundForm();
@@ -25,7 +26,7 @@ export function NewSound() {
 			path,
 		}));
 
-		addSound(new Sound({ fileOptionsList, name }));
+		addSound(new Sound({ fileOptionsList, name, id: uuid() }));
 	}
 
 	return (

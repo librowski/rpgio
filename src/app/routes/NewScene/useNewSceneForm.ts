@@ -1,13 +1,16 @@
-import type { SoundSchedulerData } from "@/player/SoundScheduler";
+import type { SceneData } from "@/player/Scene";
 import { useForm, useFormContext } from "react-hook-form";
 
 export function useNewSceneForm() {
 	return useForm<FormData>({
 		defaultValues: {
 			name: "New scene",
-      soundSchedules: [{
-        loop: true,
-      }]
+			soundSchedules: [
+				{
+					loop: true,
+					interval: [0, 0],
+				},
+			],
 		},
 	});
 }
@@ -16,7 +19,4 @@ export function useNewSceneFormContext() {
 	return useFormContext<FormData>();
 }
 
-type FormData = {
-	name: string;
-	soundSchedules: SoundSchedulerData[];
-};
+type FormData = Omit<SceneData, "id">;

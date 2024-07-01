@@ -1,23 +1,26 @@
 import { shuffle } from "@/utils/shuffle";
 import { AudioFile } from "./AudioFile";
 import type { AudioFileOptions } from "./AudioFile";
-import { EventManager } from "./EventManager";
-import { uuid } from "@/utils/uuid";
+import { EventEmitterGroup } from "./events/EventEmitterGroup";
 
 export class Sound {
-	id = uuid();
-	eventManager = new EventManager<"end">();
+	id: string;
+	eventEmitter = new EventEmitterGroup<"end">();
 	name: string;
 	files: AudioFile[];
 
 	private fileQueue: AudioFile[];
 
-	constructor({ fileOptionsList, name }: SoundOptions) {
+	constructor({ fileOptionsList, name, id }: SoundOptions) {
+		this.id = id;
 		this.name = name;
 
 		const files = fileOptionsList.map((options) => new AudioFile(options));
 		this.files = files;
 		this.fileQueue = [...files];
+		this.eventEmitter = new EventEmitterGroup(
+			...files.map((file) => file.eventEmitter),
+		);
 	}
 
 	play() {
@@ -31,10 +34,6 @@ export class Sound {
 		if (!file) {
 			return;
 		}
-
-		file.eventManager.addEventHandler("end", () => {
-			this.eventManager.dispatchEvent("end");
-		});
 		file.play();
 	}
 
@@ -46,6 +45,7 @@ export class Sound {
 
 	toJson(): SoundData {
 		return {
+			id: this.id,
 			name: this.name,
 			filePaths: this.files.map(({ path }) => path),
 		};
@@ -57,6 +57,7 @@ export class Sound {
 }
 
 export type SoundOptions = {
+	id: string;
 	fileOptionsList: AudioFileOptions[];
 	name: string;
 };

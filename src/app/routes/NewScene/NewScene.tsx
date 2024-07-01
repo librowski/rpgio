@@ -9,10 +9,48 @@ import { Button } from "primereact/button";
 import { SoundSchedules } from "./SoundSchedules";
 import { useNewSceneForm } from "./useNewSceneForm";
 import { FormProvider } from "react-hook-form";
+import { Scene } from "@/player/Scene";
+import { uuid } from "@/utils/uuid";
+import type { SoundSchedulerOptions } from "@/player/SoundScheduler";
+import { useSoundStore } from "@/store/sounds";
+import { useSceneStore } from "@/store/scenes";
 
 export function NewScene() {
 	const methods = useNewSceneForm();
-	const { register } = methods;
+	const { getById: getSoundById } = useSoundStore();
+	const { addScene } = useSceneStore();
+	const { register, getValues } = methods;
+
+	function onAddScene() {
+		const { name, soundSchedules } = getValues();
+
+		const soundSchedulesOptions: SoundSchedulerOptions[] = soundSchedules.map(
+			({ soundId, ...data }) => {
+				const { name, files } = getSoundById(soundId) ?? {
+					name: "",
+					files: [],
+				};
+
+				return {
+					soundOptions: {
+						id: soundId,
+						name: name,
+						fileOptionsList: files?.map(({ path }) => ({ path })),
+					},
+					...data,
+				};
+			},
+		);
+
+		const scene = new Scene({
+			name,
+			id: uuid(),
+			soundSchedules: soundSchedulesOptions,
+			image: "",
+		});
+
+		addScene(scene);
+	}
 
 	return (
 		<FormProvider {...methods}>
@@ -39,6 +77,9 @@ export function NewScene() {
 					<Button className="flex-1" label="Choose Key" />
 				</div>
 				<SoundSchedules />
+				<Link to="..">
+					<Button label="Create" onClick={onAddScene} />
+				</Link>
 			</motion.div>
 		</FormProvider>
 	);

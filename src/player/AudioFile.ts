@@ -1,8 +1,8 @@
-import { EventManager } from "./EventManager";
+import { EventEmitter } from "./events/EventEmitter";
 import { context } from "./globals";
 
 export class AudioFile {
-	eventManager = new EventManager<"end">();
+	eventEmitter = new EventEmitter<"end">();
 	path: string;
 
 	private gainNode: GainNode;
@@ -39,7 +39,7 @@ export class AudioFile {
 		audioNode.connect(this.gainNode);
 
 		this.audioNodes.add(audioNode);
-		audioNode.addEventListener("ended", () => {
+		audioNode.mediaElement.addEventListener("ended", () => {
 			this.onEnd(audioNode);
 		});
 
@@ -53,7 +53,7 @@ export class AudioFile {
 
 	private onEnd(audioNode: MediaElementAudioSourceNode) {
 		this.muteAudioNode(audioNode);
-		this.eventManager.dispatchEvent("end");
+		this.eventEmitter.emit("end");
 	}
 }
 

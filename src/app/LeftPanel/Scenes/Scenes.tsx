@@ -12,6 +12,10 @@ export function Scenes() {
 	const { scenes, setScenes } = useSceneStore();
 
 	function onDragEnd({ active, over }: DragEndEvent) {
+		if (active?.id === over?.id) {
+			return;
+		}
+
 		const reorderedScenes = reorderBy(
 			scenes,
 			{ name: "id", value: active?.id.toString() },
@@ -27,7 +31,7 @@ export function Scenes() {
 				<DndContext onDragEnd={onDragEnd} modifiers={[restrictToParentElement]}>
 					<SortableContext items={scenes}>
 						{scenes.map((scene) => (
-							<SceneCard scene={scene} key={scene.name} />
+							<SceneCard scene={scene} key={scene.id} />
 						))}
 					</SortableContext>
 				</DndContext>

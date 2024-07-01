@@ -1,9 +1,9 @@
-import { Sound, SoundOptions } from "@/player/Sound";
+import { Sound } from "@/player/Sound";
 import type { Project } from "./Project";
 import { useSoundStore as soundStore } from "./sounds";
 import { useSceneStore as sceneStore } from "./scenes";
 import { Scene } from "@/player/Scene";
-import { SoundSchedulerOptions } from "@/player/SoundScheduler";
+import type { SoundSchedulerOptions } from "@/player/SoundScheduler";
 
 export function loadProject() {
 	let projectJson: Project = EMPTY_PROJECT;
@@ -46,6 +46,7 @@ export function loadProject() {
 						soundOptions: {
 							fileOptionsList: sound.files.map(({ path }) => ({ path })),
 							name: sound.name,
+							id: sound.id,
 						},
 					};
 				},
