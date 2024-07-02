@@ -33,7 +33,8 @@ export class AudioFile {
 	}
 
 	private createAudioNode() {
-		const audioElement = new Audio(`audio://${this.path}`);
+		const path = `media://${this.path}`;
+		const audioElement = new Audio(path);
 		const audioNode = context.createMediaElementSource(audioElement);
 
 		audioNode.connect(this.gainNode);

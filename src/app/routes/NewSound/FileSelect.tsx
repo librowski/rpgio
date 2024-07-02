@@ -13,6 +13,7 @@ export function FileSelect() {
 	function onSelectFiles({ files }: FileUploadSelectEvent) {
 		const filePaths = files.map(({ path }) => path);
 		setValue("filePaths", filePaths);
+		console.log(filePaths);
 	}
 
 	function onClear() {

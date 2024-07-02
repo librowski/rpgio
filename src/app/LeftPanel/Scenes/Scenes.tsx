@@ -1,5 +1,11 @@
 import { motion } from "framer-motion";
-import { DndContext, type DragEndEvent } from "@dnd-kit/core";
+import {
+  DndContext,
+  MouseSensor,
+  useSensor,
+  useSensors,
+  type DragEndEvent,
+} from "@dnd-kit/core";
 import { restrictToParentElement } from "@dnd-kit/modifiers";
 import { SortableContext } from "@dnd-kit/sortable";
 import { PanelSection } from "../../../components/PanelSection/PanelSection";
@@ -9,33 +15,46 @@ import { reorderBy } from "@/utils/reorderBy";
 import { useSceneStore } from "@/store/scenes";
 
 export function Scenes() {
-	const { scenes, setScenes } = useSceneStore();
+  const { scenes, setScenes } = useSceneStore();
+  const mouseSensor = useSensor(MouseSensor, {
+    activationConstraint: {
+      delay: 100,
+      distance: 0,
+      tolerance: 10,
+    },
+  });
 
-	function onDragEnd({ active, over }: DragEndEvent) {
-		if (active?.id === over?.id) {
-			return;
-		}
+  const sensors = useSensors(mouseSensor);
 
-		const reorderedScenes = reorderBy(
-			scenes,
-			{ name: "id", value: active?.id.toString() },
-			{ name: "id", value: over?.id.toString() ?? "" },
-		);
+  function onDragEnd({ active, over }: DragEndEvent) {
+    if (active?.id === over?.id) {
+      return;
+    }
 
-		setScenes(reorderedScenes);
-	}
+    const reorderedScenes = reorderBy(
+      scenes,
+      { name: "id", value: active?.id.toString() },
+      { name: "id", value: over?.id.toString() ?? "" },
+    );
 
-	return (
-		<PanelSection header="Scenes">
-			<motion.div className="flex flex-wrap gap-2 p-0">
-				<DndContext onDragEnd={onDragEnd} modifiers={[restrictToParentElement]}>
-					<SortableContext items={scenes}>
-						{scenes.map((scene) => (
-							<SceneCard scene={scene} key={scene.id} />
-						))}
-					</SortableContext>
-				</DndContext>
-			</motion.div>
-		</PanelSection>
-	);
+    setScenes(reorderedScenes);
+  }
+
+  return (
+    <PanelSection header="Scenes">
+      <motion.div className="flex flex-wrap gap-2 p-0">
+        <DndContext
+          onDragEnd={onDragEnd}
+          modifiers={[restrictToParentElement]}
+          sensors={sensors}
+        >
+          <SortableContext items={scenes}>
+            {scenes.map((scene) => (
+              <SceneCard scene={scene} key={scene.id} />
+            ))}
+          </SortableContext>
+        </DndContext>
+      </motion.div>
+    </PanelSection>
+  );
 }
