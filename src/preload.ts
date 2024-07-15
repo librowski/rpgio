@@ -1,10 +1,11 @@
-// See the Electron documentation for details on how to use preload scripts:
-// https://www.electronjs.org/docs/latest/tutorial/process-model#preload-scripts
-
 import { contextBridge, ipcRenderer } from "electron";
+import type { Project } from "./store/Project";
 
 contextBridge.exposeInMainWorld("electronApi", {
-  startSoundStream: () => ipcRenderer.send("startSoundStream"),
-  onChunkProcessed: (callback: any) =>
-    ipcRenderer.on("onChunkProcessed", (_event, value) => callback(value)),
+  loadProject() {
+    return ipcRenderer.invoke("loadProject");
+  },
+  saveProject(project: Project) {
+    return ipcRenderer.invoke("saveProject", project);
+  },
 });

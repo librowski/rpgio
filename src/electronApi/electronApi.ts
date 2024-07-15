@@ -1,29 +1,11 @@
-import { app, net, protocol } from "electron";
-
-protocol.registerSchemesAsPrivileged([
-  {
-    scheme: "media",
-    privileges: {
-      secure: true,
-      supportFetchAPI: true,
-      bypassCSP: true,
-      stream: true,
-    },
-  },
-]);
+import { app, ipcMain } from "electron";
+import { loadProject, saveProject } from "./projects";
+import type { Project } from "@/store/Project";
+import "./media";
 
 app.whenReady().then(() => {
-  protocol.handle("media", ({ url }) => {
-    const filePath = replaceHash(replaceProtocol(url));
-
-    return net.fetch(filePath);
-  });
+  ipcMain.handle("loadProject", async () => await loadProject());
+  ipcMain.handle("saveProject", async (_event, project: Project) =>
+    saveProject(project),
+  );
 });
-
-function replaceProtocol(url: string) {
-  return url.replace("media://", "file://");
-}
-
-function replaceHash(url: string) {
-  return url.replace("#", "%23");
-}

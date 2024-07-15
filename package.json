@@ -23,6 +23,7 @@
     "framer-motion": "^11.2.12",
     "just-debounce-it": "^3.2.0",
     "just-insert": "^3.2.0",
+    "just-omit": "^2.2.0",
     "just-random-integer": "^4.2.0",
     "just-shuffle": "^4.2.0",
     "just-throttle": "^4.2.0",

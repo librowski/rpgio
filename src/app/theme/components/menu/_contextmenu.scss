@@ -1,39 +1,56 @@
 .p-contextmenu {
-	padding: $verticalMenuPadding;
-	background: $overlayMenuBg;
-	color: $menuTextColor;
-	border: $overlayMenuBorder;
-	box-shadow: $overlayMenuShadow;
-	border-radius: $borderRadius;
-	width: $menuWidth;
+  padding: $verticalMenuPadding;
+  background: $overlayMenuBg;
+  color: $menuTextColor;
+  border: $overlayMenuBorder;
+  box-shadow: $overlayMenuShadow;
+  border-radius: $borderRadius;
+  width: $menuWidth;
+  overflow: hidden;
 
-	.p-contextmenu-root-list {
-		outline: 0 none;
-	}
+  .p-contextmenu-root-list {
+    outline: 0 none;
+  }
 
-	.p-submenu-list {
-		padding: $verticalMenuPadding;
-		background: $overlayMenuBg;
-		border: $overlayMenuBorder;
-		box-shadow: $overlayMenuShadow;
-		border-radius: $borderRadius;
-	}
+  .p-submenu-list {
+    padding: $verticalMenuPadding;
+    background: $overlayMenuBg;
+    border: $overlayMenuBorder;
+    box-shadow: $overlayMenuShadow;
+    border-radius: $borderRadius;
+  }
 
-	.p-menuitem {
-		@include menuitem-link();
-	}
+  .p-menuitem {
+    @include menuitem-link();
 
-	.p-menuitem-separator {
-		border-top: $divider;
-		margin: $menuSeparatorMargin;
-	}
+    .p-menuitem-link {
+      padding: 0.5rem 0;
+      gap: 0.5rem;
+      font-size: 0.8rem;
+    }
+  }
 
-	.p-submenu-icon {
-		font-size: $menuitemSubmenuIconFontSize;
+  .p-menuitem.p-danger {
+    >.p-menuitem-content {
+      background: $dangerButtonBg !important;
 
-		&.p-icon {
-			width: $menuitemSubmenuIconFontSize;
-			height: $menuitemSubmenuIconFontSize;
-		}
-	}
+      &:hover {
+        background: $dangerButtonHoverBg !important;
+      }
+    }
+  }
+
+  .p-menuitem-separator {
+    border-top: $divider;
+    margin: $menuSeparatorMargin;
+  }
+
+  .p-submenu-icon {
+    font-size: $menuitemSubmenuIconFontSize;
+
+    &.p-icon {
+      width: $menuitemSubmenuIconFontSize;
+      height: $menuitemSubmenuIconFontSize;
+    }
+  }
 }

@@ -5,61 +5,50 @@ import { useSceneStore as sceneStore } from "./scenes";
 import { Scene } from "@/player/Scene";
 import type { SoundSchedulerOptions } from "@/player/SoundScheduler";
 
-export function loadProject() {
-	let projectJson: Project = EMPTY_PROJECT;
+export async function loadProject() {
+  const projectJson = (await window.electronApi.loadProject()) ?? EMPTY_PROJECT;
 
-	try {
-		const projectString = localStorage.getItem("project");
-		if (!projectString) {
-			throw new Error("No project found.");
-		}
+  const sounds = projectJson.sounds.map(
+    ({ filePaths, ...sound }) =>
+      new Sound({
+        ...sound,
+        fileOptionsList: filePaths.map((path) => ({ path })),
+      }),
+  );
+  soundStore.setState({
+    sounds,
+  });
 
-		projectJson = JSON.parse(projectString);
-	} catch (error) {
-		console.error("Couldnt't parse project json", error);
-	}
+  const scenes = projectJson.scenes.map(({ soundSchedules, ...scene }) => {
+    return new Scene({
+      ...scene,
+      soundSchedules: soundSchedules.map(
+        ({ soundId, ...data }): SoundSchedulerOptions => {
+          const sound = soundStore.getState().getById(soundId);
 
-	const sounds = projectJson.sounds.map(
-		({ filePaths, ...sound }) =>
-			new Sound({
-				...sound,
-				fileOptionsList: filePaths.map((path) => ({ path })),
-			}),
-	);
-	soundStore.setState({
-		sounds,
-	});
+          if (!sound) {
+            throw new Error(`Could not find sound with id ${soundId}`);
+          }
 
-	const scenes = projectJson.scenes.map(({ soundSchedules, ...scene }) => {
-		return new Scene({
-			...scene,
-			soundSchedules: soundSchedules.map(
-				({ soundId, ...data }): SoundSchedulerOptions => {
-					const sound = soundStore.getState().getById(soundId);
-
-					if (!sound) {
-						throw new Error(`Could not find sound with id ${soundId}`);
-					}
-
-					return {
-						...data,
-						soundOptions: {
-							fileOptionsList: sound.files.map(({ path }) => ({ path })),
-							name: sound.name,
-							id: sound.id,
-						},
-					};
-				},
-			),
-		});
-	});
-	sceneStore.setState({
-		scenes,
-	});
+          return {
+            ...data,
+            soundOptions: {
+              fileOptionsList: sound.files.map(({ path }) => ({ path })),
+              name: sound.name,
+              id: sound.id,
+            },
+          };
+        },
+      ),
+    });
+  });
+  sceneStore.setState({
+    scenes,
+  });
 }
 
 const EMPTY_PROJECT: Project = {
-	name: "",
-	sounds: [],
-	scenes: [],
+  name: "",
+  sounds: [],
+  scenes: [],
 };

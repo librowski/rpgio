@@ -5,10 +5,12 @@ import { useSoundStore as soundStore } from "./sounds";
 import { loadProject } from "./loadProject";
 
 export function useAutosave() {
-	useEffect(() => {
-		loadProject();
+  useEffect(() => {
+    (async () => {
+      await loadProject();
 
-		sceneStore.subscribe(saveProject);
-		soundStore.subscribe(saveProject);
-	}, []);
+      sceneStore.subscribe(saveProject);
+      soundStore.subscribe(saveProject);
+    })();
+  }, []);
 }

@@ -2807,6 +2807,11 @@ just-insert@^3.2.0:
   resolved "https://registry.yarnpkg.com/just-insert/-/just-insert-3.2.0.tgz#31e04c37dc5748fb36492c6515d9eaf8c7378312"
   integrity sha512-M3E0zgm9kCPPNspm9asIGkYccZHotP0pJ6btlVebN4m46FPLE3dpAyUJWkhxLMYp9F3qq8uBNuw9JAeifrg+oA==
 
+just-omit@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/just-omit/-/just-omit-2.2.0.tgz#8558395e7d7083f2a98a9907aaa096927fe3c26f"
+  integrity sha512-Js7+HxDOGcB3RhI38Mird/RgyMf3t0DAJFda1QWqqlAKTa36NeSYIufJXxrZUbysFTRcTOFcoMCiFK5FwCoI7Q==
+
 just-random-integer@^4.2.0:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/just-random-integer/-/just-random-integer-4.2.0.tgz#4a8520e21007466df63c31f69a943efbb1ccc648"

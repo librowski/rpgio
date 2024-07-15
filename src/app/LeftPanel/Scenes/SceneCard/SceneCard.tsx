@@ -29,6 +29,8 @@ export function SceneCard({ scene }: Props) {
     zIndex: isDragging ? 1 : 0,
   };
 
+  //console.log(style.transform);
+
   const sceneCardClassName = clsx("flex-1", styles["scene-card"]);
 
   function onClick() {

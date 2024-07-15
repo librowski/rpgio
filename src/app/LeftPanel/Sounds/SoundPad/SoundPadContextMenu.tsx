@@ -1,5 +1,5 @@
 import { useSoundStore } from "@/store/sounds";
-import { Trash, SpeakerX } from "@phosphor-icons/react";
+import { Trash, SpeakerX, Pencil, type IconProps } from "@phosphor-icons/react";
 import type { ContextMenuProps } from "primereact/contextmenu";
 import { ContextMenu } from "primereact/contextmenu";
 import type { MenuItem } from "primereact/menuitem";
@@ -20,32 +20,46 @@ export const SoundPadContextMenu = forwardRef<ContextMenu, Props>(
   },
 );
 
+type Props = ContextMenuProps & {
+  soundId: string;
+};
+
 function useContextMenuItems(soundId: string): MenuItem[] {
   const { removeSound, getById } = useSoundStore();
   const sound = getById(soundId);
 
-  const onDelete = () => {
+  function onDelete() {
     removeSound(soundId);
-  };
+  }
 
-  const onMute = () => {
+  function onEdit() {
+    console.log("Edit sound");
+  }
+
+  function onMute() {
     sound?.mute();
+  }
+
+  const iconProps: IconProps = {
+    size: 20,
   };
 
   return [
     {
       label: "Mute",
-      icon: <SpeakerX />,
+      icon: <SpeakerX {...iconProps} />,
       command: onMute,
     },
     {
+      label: "Edit",
+      icon: <Pencil {...iconProps} />,
+      command: onEdit,
+    },
+    {
       label: "Delete",
-      icon: <Trash />,
+      icon: <Trash {...iconProps} />,
       command: onDelete,
+      className: "p-danger",
     },
   ];
 }
-
-type Props = ContextMenuProps & {
-  soundId: string;
-};
