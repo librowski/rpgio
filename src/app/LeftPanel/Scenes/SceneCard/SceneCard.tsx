@@ -6,9 +6,17 @@ import styles from "./SceneCard.module.scss";
 import { useSceneStore } from "@/store/scenes";
 import type { Scene } from "@/player/Scene";
 import clsx from "clsx";
+import { useRef } from "react";
+import type { ContextMenu } from "primereact/contextmenu";
+import { SceneCardContextMenu } from "./SceneCardContextMenu";
 
 export function SceneCard({ scene }: Props) {
   const { name, id } = scene;
+  const contextMenuRef = useRef<ContextMenu>(null);
+
+  function onContextMenu(event: React.MouseEvent) {
+    contextMenuRef?.current?.show(event);
+  }
 
   const { activateScene, activeSceneId } = useSceneStore();
   const isActive = activeSceneId === id;
@@ -28,8 +36,6 @@ export function SceneCard({ scene }: Props) {
     cursor: isDragging ? "grabbing" : "pointer",
     zIndex: isDragging ? 1 : 0,
   };
-
-  //console.log(style.transform);
 
   const sceneCardClassName = clsx("flex-1", styles["scene-card"]);
 
@@ -53,12 +59,14 @@ export function SceneCard({ scene }: Props) {
       initial="initial"
       whileHover="hover"
       onClick={onClick}
+      onContextMenu={onContextMenu}
       style={style}
     >
       <motion.div className={sceneCardClassName} />
       <div className={clsx("px-2 py-1", styles["scene-card__label"])}>
         <Text color="primary">{name}</Text>
       </div>
+      <SceneCardContextMenu sceneId={id} ref={contextMenuRef} />
     </motion.div>
   );
 }

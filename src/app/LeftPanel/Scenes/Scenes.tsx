@@ -19,7 +19,7 @@ export function Scenes() {
   const mouseSensor = useSensor(MouseSensor, {
     activationConstraint: {
       delay: 100,
-      distance: 0,
+      distance: 10,
       tolerance: 10,
     },
   });

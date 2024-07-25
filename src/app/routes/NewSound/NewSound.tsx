@@ -2,7 +2,6 @@ import { IconButton } from "@/components/IconButton/IconButton";
 import { Text } from "@/components/Text/Text";
 import { ArrowLeft } from "@phosphor-icons/react";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
 import { InputText } from "primereact/inputtext";
 import styles from "./NewSound.module.scss";
 import { Button } from "primereact/button";

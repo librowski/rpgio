@@ -3,59 +3,97 @@ import type { SoundOptions } from "./Sound";
 import { randomFloat } from "@/utils/random-float";
 
 export class SoundScheduler {
-	id: string;
-	sound: Sound;
-	loop: boolean;
-	interval: [number, number];
+  id: string;
+  sound: Sound;
+  scheduleOptions: ScheduleOptions;
+  isEnabled = false;
 
-	constructor({ soundOptions, loop, interval, id }: SoundSchedulerOptions) {
-		this.sound = new Sound(soundOptions);
-		this.loop = loop;
-		this.interval = interval;
-		this.id = id;
-	}
+  constructor({ soundOptions, scheduleOptions, id }: SoundSchedulerOptions) {
+    this.sound = new Sound(soundOptions);
+    this.scheduleOptions = scheduleOptions;
+    this.id = id;
+  }
 
-	start() {
-		if (this.loop && this.interval) {
-			this.sound.eventEmitter.subscribe("end", this.onEnd);
-		}
+  play({ delay }: PlayOptions = {}) {
+    const timeout = delay ?? 0;
 
-		this.sound.play();
-	}
+    setTimeout(() => {
+      if (!this.isEnabled) {
+        return;
+      }
 
-	stop() {
-		this.sound.mute();
-		this.sound.eventEmitter.unsubscribe("end", this.onEnd);
-	}
+      this.sound.play();
+    }, timeout);
+  }
 
-	toJson(): SoundSchedulerData {
-		return {
-			id: this.id,
-			soundId: this.sound.id,
-			loop: this.loop,
-			interval: this.interval,
-		};
-	}
+  playWithRandomDelay() {
+    const timeout = this.getInterval();
 
-	onEnd = () => {
-		this.sound.eventEmitter.unsubscribe("end", this.onEnd);
+    this.play({ delay: timeout });
+  }
 
-		const timeout = this.interval ? randomFloat(...this.interval) : 0;
-		const S = 1000;
+  start() {
+    this.isEnabled = true;
+    this.playWithRandomDelay();
+    this.sound.eventEmitter.subscribe("end", this.onEnd);
+  }
 
-		setTimeout(() => {
-			this.sound.play();
-		}, timeout * S);
-	};
+  stop() {
+    this.isEnabled = false;
+    this.sound.eventEmitter.unsubscribe("end", this.onEnd);
+    this.sound.mute();
+  }
+
+  toJson(): SoundSchedulerData {
+    return {
+      id: this.id,
+      soundId: this.sound.id,
+      scheduleOptions: this.scheduleOptions,
+    };
+  }
+
+  onEnd = () => {
+    this.sound.eventEmitter.unsubscribe("end", this.onEnd);
+    this.playWithRandomDelay();
+  };
+
+  private getInterval() {
+    const SECOND = 1000;
+    const { type } = this.scheduleOptions;
+
+    if (type === "ambient") {
+      return 0;
+    }
+
+    if (type === "interval") {
+      const { from, to } = this.scheduleOptions;
+      return randomFloat(from, to) * SECOND;
+    }
+  }
 }
 
 export type SoundSchedulerOptions = {
-	id: string;
-	soundOptions: SoundOptions;
-	loop: boolean;
-	interval: [number, number];
+  id: string;
+  soundOptions: SoundOptions;
+  scheduleOptions: ScheduleOptions;
+};
+
+type ScheduleOptions = IntervalOptions | AmbientOptions;
+
+type IntervalOptions = {
+  type: "interval";
+  from: number;
+  to: number;
+};
+
+type AmbientOptions = {
+  type: "ambient";
 };
 
 export type SoundSchedulerData = Omit<SoundSchedulerOptions, "soundOptions"> & {
-	soundId: string;
+  soundId: string;
+};
+
+type PlayOptions = {
+  delay?: number;
 };

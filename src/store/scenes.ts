@@ -4,16 +4,29 @@ import { create } from "zustand";
 export const useSceneStore = create<SceneStore>((set, get) => ({
   scenes: [],
   activeSceneId: undefined,
+  getById(id) {
+    const { scenes } = get();
+    return scenes.find((scene) => scene.id === id) ?? null;
+  },
   getActiveScene() {
-    const { scenes, activeSceneId } = get();
+    const { getById, activeSceneId } = get();
 
-    console.log(scenes);
-    console.log(activeSceneId);
+    if (!activeSceneId) {
+      return null;
+    }
 
-    return scenes.find((scene) => scene.id === activeSceneId);
+    return getById(activeSceneId);
+  },
+  deactiveateScene() {
+    set({ activeSceneId: undefined });
   },
   activateScene(scene: Scene) {
     const currentScene = get().getActiveScene();
+
+    if (scene === currentScene) {
+      return;
+    }
+
     currentScene?.stop();
 
     set({ activeSceneId: scene.id });
@@ -38,8 +51,10 @@ export const useSceneStore = create<SceneStore>((set, get) => ({
 type SceneStore = {
   scenes: Scene[];
   activeSceneId?: string;
-  getActiveScene(): Scene | undefined;
+  getActiveScene(): Scene | null;
+  getById(id: string): Scene | null;
   activateScene(scene: Scene): void;
+  deactiveateScene(): void;
   addScene(scene: Scene): void;
   setScenes(scenes: Scene[]): void;
   removeScene(sceneId: string): void;
