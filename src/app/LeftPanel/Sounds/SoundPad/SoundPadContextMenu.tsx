@@ -1,9 +1,11 @@
+import { ROUTES } from "@/app/routes/routes";
 import { useSoundStore } from "@/store/sounds";
 import { Trash, SpeakerX, Pencil, type IconProps } from "@phosphor-icons/react";
 import type { ContextMenuProps } from "primereact/contextmenu";
 import { ContextMenu } from "primereact/contextmenu";
 import type { MenuItem } from "primereact/menuitem";
 import { forwardRef } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const SoundPadContextMenu = forwardRef<ContextMenu, Props>(
   function SoundPadContextMenu({ soundId, ...props }, ref) {
@@ -25,6 +27,7 @@ type Props = ContextMenuProps & {
 };
 
 function useContextMenuItems(soundId: string): MenuItem[] {
+  const navigate = useNavigate();
   const { removeSound, getById } = useSoundStore();
   const sound = getById(soundId);
 
@@ -33,7 +36,7 @@ function useContextMenuItems(soundId: string): MenuItem[] {
   }
 
   function onEdit() {
-    console.log("Edit sound");
+    navigate(`/sounds/edit/${soundId}`);
   }
 
   function onMute() {

@@ -1,4 +1,4 @@
-import { WithLabel } from "@/components/Label/WithLabel";
+import { InputWrapper } from "@/components/InputWrapper/InputWrapper";
 import { InputNumber } from "primereact/inputnumber";
 import {
 	type NewSceneFormData,
@@ -17,26 +17,28 @@ export function IntervalOptions({ field, index }: Props) {
 
 	return (
 		<>
-			<WithLabel for="from" name="From">
+			<InputWrapper for="from" name="From">
 				<InputNumber
 					id="from"
 					suffix=" seconds"
 					value={from}
 					onChange={({ value }) =>
-						value && setValue(`soundSchedules.${index}.scheduleOptions.from`, value)
+						value &&
+						setValue(`soundSchedules.${index}.scheduleOptions.from`, value)
 					}
 				/>
-			</WithLabel>
-			<WithLabel for="to" name="To">
+			</InputWrapper>
+			<InputWrapper for="to" name="To">
 				<InputNumber
 					suffix=" seconds"
 					id="to"
 					value={to}
 					onChange={({ value }) =>
-						value && setValue(`soundSchedules.${index}.scheduleOptions.to`, value)
+						value &&
+						setValue(`soundSchedules.${index}.scheduleOptions.to`, value)
 					}
 				/>
-			</WithLabel>
+			</InputWrapper>
 		</>
 	);
 }

@@ -1,33 +1,42 @@
 import { createBrowserRouter } from "react-router-dom";
-import { MainView } from "./MainView/MainView";
-import { NewSound } from "./NewSound/NewSound";
 import { AnimatedLayout } from "../AnimatedLayout/AnimatedLayout";
-import { NewScene } from "./NewScene/NewScene";
+import { MainView } from "./main/MainView";
+import { NewSoundView } from "./sounds/NewSoundView";
+import { NewSceneView } from "./scenes/NewSceneView";
+import { EditSoundView } from "./sounds/EditSoundView";
+
+type RoutePrefix = "/sounds" | "/scenes";
+type RouteAction = "/new" | "/edit/:id";
 
 export const ROUTES = {
-	ROOT: "/",
-	MAIN: "",
-	NEW_SOUND: "/new-sound",
-	NEW_SCENE: "/new-scene",
+  ROOT: "/",
+  SOUNDS_NEW: "/sounds/new",
+  SOUNDS_EDIT: "/sounds/edit/:id",
+  SCENES_NEW: "/scenes/new",
+  SCENES_EDIT: "/scenes/edit/:id",
 };
 
 export const router = createBrowserRouter([
-	{
-		path: ROUTES.ROOT,
-		element: <AnimatedLayout />,
-		children: [
-			{
-				path: ROUTES.MAIN,
-				element: <MainView />,
-			},
-			{
-				path: ROUTES.NEW_SOUND,
-				element: <NewSound />,
-			},
-			{
-				path: ROUTES.NEW_SCENE,
-				element: <NewScene />,
-			},
-		],
-	},
+  {
+    path: ROUTES.ROOT,
+    element: <AnimatedLayout />,
+    children: [
+      {
+        path: "",
+        element: <MainView />,
+      },
+      {
+        path: ROUTES.SOUNDS_NEW,
+        element: <NewSoundView />,
+      },
+      {
+        path: ROUTES.SOUNDS_EDIT,
+        element: <EditSoundView />,
+      },
+      {
+        path: ROUTES.SCENES_NEW,
+        element: <NewSceneView />,
+      },
+    ],
+  },
 ]);

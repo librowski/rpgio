@@ -14,6 +14,13 @@ export const useSoundStore = create<SoundStore>((set, get) => ({
       sounds: [...state.sounds, sound],
     }));
   },
+  updateSound(id, updatedSound) {
+    set((state) => ({
+      sounds: state.sounds.map((sound) =>
+        sound.id === id ? updatedSound : sound,
+      ),
+    }));
+  },
   removeSound(soundId) {
     set((state) => ({
       sounds: state.sounds.filter(({ id }) => id !== soundId),
@@ -28,6 +35,7 @@ type SoundStore = {
   sounds: Sound[];
   setSounds(sounds: Sound[]): void;
   addSound(suond: Sound): void;
+  updateSound(id: string, updatedSound: Sound): void;
   loadSounds(sounds: Sound[]): void;
   getById(id: string): Sound | undefined;
   removeSound(soundId: string): void;

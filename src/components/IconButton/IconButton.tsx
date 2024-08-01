@@ -1,31 +1,35 @@
-import type { Icon, IconProps } from "@phosphor-icons/react";
+import type { Icon } from "@phosphor-icons/react";
+import { type HTMLMotionProps, motion } from "framer-motion";
 
-import type { ButtonProps } from "primereact/button";
-import { Button } from "primereact/button";
+import styles from "./IconButton.module.scss";
 
 export function IconButton(props: Props) {
   const {
     icon: IconComponent,
-    iconProps,
+    size,
+    className,
     ...rest
-  } = { ...DEFAULT_BUTTON_PROPS, ...props };
-  const finalIconProps = { ...DEFAULT_ICON_PROPS, ...iconProps };
+  } = { ...DEFAULT_PROPS, ...props };
 
   return (
-    <Button icon={() => <IconComponent {...finalIconProps} />} {...rest} />
+    <motion.div
+      whileHover={{
+        color: "var(--gray-50)",
+        background: "rgba(255 255 255 / 0.1)",
+      }}
+      className={`${styles["icon-button"]} ${className}`}
+      {...rest}
+    >
+      <IconComponent size={size} />
+    </motion.div>
   );
 }
 
-type Props = {
-  icon: Icon;
-  iconProps?: IconProps;
-} & Omit<ButtonProps, "icon">;
-
-const DEFAULT_BUTTON_PROPS: ButtonProps = {
-  rounded: true,
-  text: true,
+const DEFAULT_PROPS: Pick<Props, "size"> = {
+  size: "1rem",
 };
 
-const DEFAULT_ICON_PROPS: IconProps = {
-  size: 20,
+type Props = HTMLMotionProps<"div"> & {
+  icon: Icon;
+  size?: string;
 };

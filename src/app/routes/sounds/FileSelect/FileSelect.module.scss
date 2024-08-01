@@ -1,0 +1,11 @@
+.file-select {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-height: 20rem;
+  min-height: 8rem;
+  overflow: auto;
+  border-radius: 0.2rem;
+  background-color: var(--gray-900);
+  cursor: pointer;
+}

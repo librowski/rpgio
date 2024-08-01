@@ -16,27 +16,30 @@ $src: "https://ruralhistoria.com/wp-content/uploads/images/medieval-market-squar
   width: 16rem;
   height: 9rem;
   opacity: 0.75;
+}
+
+.scene-card {
   filter: grayscale(50%);
-  transition: filter 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  transition: 3s ease-in-out background,
+    filter 0.3s ease-in-out,
+    opacity 0.3s ease-in-out;
+  background-size: cover,
+    100% 100% !important;
+  background-position: center,
+    0px 0px;
+  background: url("https://ruralhistoria.com/wp-content/uploads/images/medieval-market-squares.jpeg"),
+    radial-gradient(circle calc(var(--radius) * 10rem) at center,
+      rgb(255 255 255 / var(--opacity)) 30%,
+      rgb(0 0 0 / 30%) 50%,
+      rgb(255 255 255 / var(--opacity)));
+  background-blend-mode: difference;
+  position: relative;
 
   &:hover,
   &.active {
     opacity: 1;
     filter: grayscale(0%);
   }
-}
-
-.scene-card {
-  transition: 3s ease-in-out background;
-  background-size: cover, 100% 100% !important;
-  background-position: center, 0px 0px;
-  background:
-    url("https://ruralhistoria.com/wp-content/uploads/images/medieval-market-squares.jpeg"), radial-gradient(circle calc(var(--radius) * 10rem) at center,
-      rgb(255 255 255 / var(--opacity)) 30%,
-      rgb(0 0 0 / 30%) 50%,
-      rgb(255 255 255 / var(--opacity)));
-  background-blend-mode: difference;
-  position: relative;
 }
 
 .active .scene-card {

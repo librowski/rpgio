@@ -6,49 +6,39 @@ import { Scene } from "@/player/Scene";
 import type { SoundSchedulerOptions } from "@/player/SoundScheduler";
 
 export async function loadProject() {
-  const projectJson = (await window.electronApi.loadProject()) ?? EMPTY_PROJECT;
+	const projectJson = (await window.electronApi.loadProject()) ?? EMPTY_PROJECT;
 
-  const sounds = projectJson.sounds.map(
-    ({ filePaths, ...sound }) =>
-      new Sound({
-        ...sound,
-        fileOptionsList: filePaths.map((path) => ({ path })),
-      }),
-  );
-  soundStore.setState({
-    sounds,
-  });
+	const sounds = projectJson.sounds.map(
+		({ filePaths, ...sound }) =>
+			new Sound({
+				...sound,
+				fileOptionsList: filePaths.map((path) => ({ path })),
+			}),
+	);
+	soundStore.setState({
+		sounds,
+	});
 
-  const scenes = projectJson.scenes.map(({ soundSchedules, ...scene }) => {
-    return new Scene({
-      ...scene,
-      soundSchedules: soundSchedules.map(
-        ({ soundId, ...data }): SoundSchedulerOptions => {
-          const sound = soundStore.getState().getById(soundId);
-
-          if (!sound) {
-            throw new Error(`Could not find sound with id ${soundId}`);
-          }
-
-          return {
-            ...data,
-            soundOptions: {
-              fileOptionsList: sound.files.map(({ path }) => ({ path })),
-              name: sound.name,
-              id: sound.id,
-            },
-          };
-        },
-      ),
-    });
-  });
-  sceneStore.setState({
-    scenes,
-  });
+	const scenes = projectJson.scenes.map(({ soundSchedules, ...scene }) => {
+		return new Scene({
+			...scene,
+			soundSchedules: soundSchedules.map(
+				({ soundId, ...data }): SoundSchedulerOptions => {
+					return {
+						...data,
+						soundId,
+					};
+				},
+			),
+		});
+	});
+	sceneStore.setState({
+		scenes,
+	});
 }
 
 const EMPTY_PROJECT: Project = {
-  name: "",
-  sounds: [],
-  scenes: [],
+	name: "",
+	sounds: [],
+	scenes: [],
 };

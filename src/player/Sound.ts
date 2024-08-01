@@ -8,12 +8,14 @@ export class Sound {
   eventEmitter = new EventEmitterGroup<"end">();
   name: string;
   files: AudioFile[];
+  sceneIds: string[] = [];
 
   private fileQueue: AudioFile[];
 
-  constructor({ fileOptionsList, name, id }: SoundOptions) {
+  constructor({ fileOptionsList, name, id, sceneIds }: SoundOptions) {
     this.id = id;
     this.name = name;
+    this.sceneIds = sceneIds;
 
     const files = fileOptionsList.map((options) => new AudioFile(options));
     this.files = files;
@@ -48,6 +50,7 @@ export class Sound {
       id: this.id,
       name: this.name,
       filePaths: this.files.map(({ path }) => path),
+      sceneIds: this.sceneIds,
     };
   }
 
@@ -59,6 +62,7 @@ export class Sound {
 export type SoundOptions = {
   id: string;
   fileOptionsList: AudioFileOptions[];
+  sceneIds: string[];
   name: string;
 };
 

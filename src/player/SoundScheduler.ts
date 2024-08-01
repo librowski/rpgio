@@ -1,5 +1,5 @@
-import { Sound } from "./Sound";
-import type { SoundOptions } from "./Sound";
+import { useSoundStore } from "@/store/sounds";
+import type { Sound } from "./Sound";
 import { randomFloat } from "@/utils/random-float";
 
 export class SoundScheduler {
@@ -8,8 +8,13 @@ export class SoundScheduler {
   scheduleOptions: ScheduleOptions;
   isEnabled = false;
 
-  constructor({ soundOptions, scheduleOptions, id }: SoundSchedulerOptions) {
-    this.sound = new Sound(soundOptions);
+  constructor({ soundId, scheduleOptions, id }: SoundSchedulerOptions) {
+    const sound = useSoundStore.getState().getById(soundId);
+    if (!sound) {
+      throw new Error(`Could not find sound with id ${soundId}`);
+    }
+
+    this.sound = sound;
     this.scheduleOptions = scheduleOptions;
     this.id = id;
   }
@@ -28,6 +33,7 @@ export class SoundScheduler {
 
   playWithRandomDelay() {
     const timeout = this.getInterval();
+    console.log("Playing with timeout", timeout);
 
     this.play({ delay: timeout });
   }
@@ -44,7 +50,7 @@ export class SoundScheduler {
     this.sound.mute();
   }
 
-  toJson(): SoundSchedulerData {
+  toJson(): SoundSchedulerOptions {
     return {
       id: this.id,
       soundId: this.sound.id,
@@ -74,7 +80,7 @@ export class SoundScheduler {
 
 export type SoundSchedulerOptions = {
   id: string;
-  soundOptions: SoundOptions;
+  soundId: string;
   scheduleOptions: ScheduleOptions;
 };
 
@@ -88,10 +94,6 @@ type IntervalOptions = {
 
 type AmbientOptions = {
   type: "ambient";
-};
-
-export type SoundSchedulerData = Omit<SoundSchedulerOptions, "soundOptions"> & {
-  soundId: string;
 };
 
 type PlayOptions = {
