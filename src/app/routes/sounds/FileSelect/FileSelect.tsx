@@ -1,49 +1,50 @@
-import { Text } from "@/components/Text/Text";
 import { useSoundFormContext } from "../useSoundForm";
 import { useUserPreferencesStore } from "@/store/userPreferences";
-import { SoundFileItem } from "./SoundFileItem";
-import styles from "./FileSelect.module.scss";
-import { InputWrapper } from "@/components/InputWrapper/InputWrapper";
+import { InputWrapper } from "@/components/inputs/InputWrapper/InputWrapper";
+import { FileList } from "./FileList";
 import clsx from "clsx";
+import styles from "./FileSelect.module.scss";
+import { IconButton } from "@/components/IconButton/IconButton";
+import { PlusCircle } from "@phosphor-icons/react";
+import { unique } from "@/utils/unique";
 
 export function FileSelect() {
   const { sounds, update } = useUserPreferencesStore();
   const { setValue, watch } = useSoundFormContext();
   const { filePaths } = watch();
-
   const isEmpty = filePaths.length === 0;
 
   async function onSelectFiles() {
-    const filePaths = await window.electronApi.openFileDialog({
+    const addedFiles = await window.electronApi.openFileDialog({
       defaultPath: sounds.lastOpenPath,
     });
 
-    setValue("filePaths", filePaths);
-    update("sounds", { lastOpenPath: filePaths[0] });
+    const newFilePaths = unique([...filePaths, ...addedFiles]);
+    if (newFilePaths.length === filePaths.length) {
+      return;
+    }
+
+    setValue("filePaths", newFilePaths);
+    update("sounds", { lastOpenPath: newFilePaths[0] });
   }
 
-  const onClick = isEmpty ? onSelectFiles : undefined;
-
-  const fileListClassName = clsx(
-    {
-      "justify-content-center": isEmpty,
-    },
-    styles["file-select"],
-  );
+  const buttonClassName = clsx({
+    [styles["floating-add-button"]]: !isEmpty,
+  });
 
   return (
-    <div className="flex px-2 gap-2 flex-column">
-      <InputWrapper for="files" name="Files">
-        <div className={fileListClassName} onClick={onClick}>
-          {isEmpty ? (
-            <Text className="m-2">Drop files here or click to select them</Text>
-          ) : (
-            filePaths.map((filePath, index) => (
-              <SoundFileItem key={filePath} filePath={filePath} index={index} />
-            ))
-          )}
-        </div>
-      </InputWrapper>
-    </div>
+    <InputWrapper className="mx-2 relative" for="files" name="Files">
+      <div className="flex flex-column relative">
+        <FileList onSelectFiles={onSelectFiles} filePaths={filePaths} />
+        {!isEmpty && (
+          <IconButton
+            variant="fill"
+            className={buttonClassName}
+            icon={PlusCircle}
+            onClick={onSelectFiles}
+          />
+        )}
+      </div>
+    </InputWrapper>
   );
 }

@@ -1,20 +1,20 @@
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
-import { Text } from "@/components/Text/Text";
 import { FileSelect } from "./FileSelect/FileSelect";
 import { useSoundFormContext } from "./useSoundForm";
 import { useNavigateBack } from "@/hooks/useNavigateBack";
 import { Sound } from "@/player/Sound";
 import type { AudioFileOptions } from "@/player/AudioFile";
 import { uuid } from "@/utils/uuid";
-import { InputWrapper } from "@/components/InputWrapper/InputWrapper";
+import { InputWrapper } from "@/components/inputs/InputWrapper/InputWrapper";
+import { AudioSettings } from "./AudioSettings";
 
 export function SoundForm({ onSave, confirmText }: Props) {
 	const { register, getValues } = useSoundFormContext();
 	const goBack = useNavigateBack();
 
 	function onClick() {
-		const { filePaths, name } = getValues();
+		const { filePaths, ...soundOptions } = getValues();
 
 		const fileOptionsList: AudioFileOptions[] = filePaths.map((path) => ({
 			path,
@@ -22,10 +22,10 @@ export function SoundForm({ onSave, confirmText }: Props) {
 
 		const sound = new Sound({
 			fileOptionsList,
-			name,
-			sceneIds: [],
 			id: uuid(),
+			...soundOptions,
 		});
+
 		onSave(sound);
 		goBack();
 	}
@@ -41,7 +41,8 @@ export function SoundForm({ onSave, confirmText }: Props) {
 				</InputWrapper>
 			</div>
 			<FileSelect />
-			<div className="flex gap-2 px-2 justify-content-end">
+			<AudioSettings />
+			<div className="flex gap-2 mt-8 px-2 justify-content-end">
 				<Button label="Cancel" severity="secondary" onClick={goBack} />
 				<Button label={confirmText} onClick={onClick} />
 			</div>

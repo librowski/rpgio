@@ -8,6 +8,7 @@ export function IconButton(props: Props) {
     icon: IconComponent,
     size,
     className,
+    variant,
     ...rest
   } = { ...DEFAULT_PROPS, ...props };
 
@@ -15,21 +16,23 @@ export function IconButton(props: Props) {
     <motion.div
       whileHover={{
         color: "var(--gray-50)",
-        background: "rgba(255 255 255 / 0.1)",
       }}
       className={`${styles["icon-button"]} ${className}`}
+      style={{ height: size, width: size }}
       {...rest}
     >
-      <IconComponent size={size} />
+      <IconComponent size={size} weight={variant} />
     </motion.div>
   );
 }
 
-const DEFAULT_PROPS: Pick<Props, "size"> = {
-  size: "1rem",
+const DEFAULT_PROPS: Required<Pick<Props, "size" | "variant">> = {
+  size: "1.5rem",
+  variant: "regular",
 };
 
 type Props = HTMLMotionProps<"div"> & {
   icon: Icon;
   size?: string;
+  variant?: "fill" | "regular";
 };

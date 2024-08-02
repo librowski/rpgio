@@ -13,7 +13,7 @@ export function EntityView({ children, header }: Props) {
       animate
       className={`flex gap-2 flex-column ${styles.container}`}
     >
-      <div className="m-1 flex align-items-center gap-2 relative">
+      <div className="mx-1 flex align-items-center relative">
         <IconButton
           icon={ArrowLeft}
           className={styles["back-button"]}

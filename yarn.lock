@@ -2832,6 +2832,11 @@ just-truncate@^2.2.0:
   resolved "https://registry.yarnpkg.com/just-truncate/-/just-truncate-2.2.0.tgz#23e89d0919393f3c3f95085838fd0e1101718b06"
   integrity sha512-s7RX8ARl3SBPBPT5z9BRh4pNtHfmWIOiG3OiOisON8gPXjAhKaL9SFgUhGdrwcr6PpQQR6otNrRzCgbozi9qpQ==
 
+just-unique@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/just-unique/-/just-unique-4.2.0.tgz#80927360b92f5039fad7e7f5f8bc48904d9177b6"
+  integrity sha512-cxQGGUiit6CGUpuuiezY8N4m1wgF4o7127rXEXDFcxeDUFfdV7gSkwA26Fe2wWBiNQq2SZOgN4gSmMxB/StA8Q==
+
 keyv@^4.0.0:
   version "4.5.4"
   resolved "https://registry.yarnpkg.com/keyv/-/keyv-4.5.4.tgz#a879a99e29452f942439f2a405e3af8b31d4de93"

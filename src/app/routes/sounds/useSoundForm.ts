@@ -4,26 +4,29 @@ import { omit } from "@/utils/omit";
 import { useForm, useFormContext } from "react-hook-form";
 
 export function useSoundForm(soundId?: string) {
-  const { getById } = useSoundStore();
-  const editedSound = soundId ? getById(soundId) : null;
+	const { getById } = useSoundStore();
+	const editedSound = soundId ? getById(soundId) : null;
 
-  const defaultValues = editedSound
-    ? omit(editedSound.toJson(), "id")
-    : EMPTY_FORM;
+	const defaultValues = editedSound
+		? omit(editedSound.toJson(), "id")
+		: EMPTY_FORM;
 
-  return useForm<FormData>({
-    defaultValues,
-  });
+	return useForm<FormData>({
+		defaultValues,
+	});
 }
 
 const EMPTY_FORM: FormData = {
-  name: "New sound",
-  sceneIds: [],
-  filePaths: [],
+	name: "New sound",
+	filePaths: [],
+	volume: 100,
+	playbackRate: 100,
+	reverbType: "none",
+	reverbLevel: 100,
 };
 
 export function useSoundFormContext() {
-  return useFormContext<FormData>();
+	return useFormContext<FormData>();
 }
 
 type FormData = Omit<SoundData, "id">;

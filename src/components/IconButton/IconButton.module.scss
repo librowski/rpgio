@@ -1,4 +1,7 @@
 .icon-button {
+  transition: 200ms ease background;
+  display: flex;
+  justify-content: center;
   color: var(--gray-300);
   display: flex;
   justify-content: center;
@@ -6,4 +9,8 @@
   border-radius: 100%;
   cursor: pointer;
   padding: 0.2rem;
+
+  &:hover {
+    background: rgba(255 255 255 / 0.1);
+  }
 }
