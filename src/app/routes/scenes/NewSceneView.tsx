@@ -6,7 +6,7 @@ import { InputText } from "primereact/inputtext";
 import styles from "./NewScene.module.scss";
 import { Button } from "primereact/button";
 import { SoundSchedules } from "./SoundSchedules/SoundSchedules";
-import { useNewSceneForm } from "./useNewSceneForm";
+import { useSceneForm } from "./useSceneForm";
 import { FormProvider } from "react-hook-form";
 import { Scene } from "@/player/Scene";
 import { uuid } from "@/utils/uuid";
@@ -14,9 +14,10 @@ import type { SoundSchedulerOptions } from "@/player/SoundScheduler";
 import { useSoundStore } from "@/store/sounds";
 import { useSceneStore } from "@/store/scenes";
 import { useNavigateBack } from "@/hooks/useNavigateBack";
+import { InputWrapper } from "@/components/inputs/InputWrapper/InputWrapper";
 
 export function NewSceneView() {
-  const methods = useNewSceneForm();
+  const methods = useSceneForm();
   const { getById: getSoundById } = useSoundStore();
   const { addScene } = useSceneStore();
   const { register, getValues } = methods;
@@ -28,9 +29,6 @@ export function NewSceneView() {
     const soundSchedulesOptions: SoundSchedulerOptions[] = soundSchedules.map(
       ({ soundId, ...data }) => {
         const sound = getSoundById(soundId);
-        if (!sound) {
-          return;
-        }
 
         const fileOptionsList = sound?.files.map(({ path }) => ({ path }));
 
@@ -39,6 +37,7 @@ export function NewSceneView() {
             fileOptionsList,
           },
           ...data,
+          soundId,
         };
       },
     );
@@ -72,13 +71,12 @@ export function NewSceneView() {
         </div>
 
         <div className="flex gap-2 align-items-end">
-          <div className="flex flex-1 flex-column gap-1">
-            <Text<"label"> tag="label" htmlFor="name">
-              Name
-            </Text>
+          <InputWrapper for="name" name="Name">
             <InputText id="name" {...register("name")} />
-          </div>
-          <Button className="flex-1" label="Choose Key" />
+          </InputWrapper>
+          <InputWrapper for="shortcut" name="Shortcut">
+            <Button className="flex-1" label="Choose Key" />
+          </InputWrapper>
         </div>
         <SoundSchedules />
         <Button label="Create" onClick={onAddScene} />

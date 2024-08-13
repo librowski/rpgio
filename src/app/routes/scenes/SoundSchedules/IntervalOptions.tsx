@@ -1,9 +1,6 @@
 import { InputWrapper } from "@/components/inputs/InputWrapper/InputWrapper";
 import { InputNumber } from "primereact/inputnumber";
-import {
-  type NewSceneFormData,
-  useNewSceneFormContext,
-} from "../useNewSceneForm";
+import { type SceneFormData, useSceneFormContext } from "../useSceneForm";
 
 export function IntervalOptions({ field, index }: Props) {
   const { scheduleOptions } = field;
@@ -13,7 +10,7 @@ export function IntervalOptions({ field, index }: Props) {
   }
 
   const { from, to } = scheduleOptions;
-  const { setValue } = useNewSceneFormContext();
+  const { setValue } = useSceneFormContext();
 
   return (
     <>
@@ -44,6 +41,6 @@ export function IntervalOptions({ field, index }: Props) {
 }
 
 type Props = {
-  field: NewSceneFormData["soundSchedules"][number];
+  field: SceneFormData["soundSchedules"][number];
   index: number;
 };

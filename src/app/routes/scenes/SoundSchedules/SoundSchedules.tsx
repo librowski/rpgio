@@ -3,7 +3,7 @@ import { useSoundStore } from "@/store/sounds";
 import { motion } from "framer-motion";
 import { Dropdown } from "primereact/dropdown";
 import type { SelectItem } from "primereact/selectitem";
-import { useNewSceneFormContext } from "../useNewSceneForm";
+import { useSceneFormContext } from "../useSceneForm";
 import { useFieldArray } from "react-hook-form";
 import { IconButton } from "@/components/IconButton/IconButton";
 import { Plus, Trash } from "@phosphor-icons/react";
@@ -21,7 +21,7 @@ export function SoundSchedules() {
   ];
   const options = sounds.map(soundToOption);
 
-  const { control } = useNewSceneFormContext();
+  const { control } = useSceneFormContext();
   const { fields, append, remove, update } = useFieldArray({
     control,
     name: "soundSchedules",
