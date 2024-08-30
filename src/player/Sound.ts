@@ -1,8 +1,9 @@
 import { shuffle } from "@/utils/shuffle";
+import { animate, motionValue, type MotionValue } from "framer-motion";
 import { AudioFile } from "./AudioFile";
 import type { AudioFileData } from "./AudioFile";
-import { EventEmitterGroup } from "./events/EventEmitterGroup";
 import { AudioParametersNode } from "./AudioParametersNode";
+import { EventEmitterGroup } from "./events/EventEmitterGroup";
 import { context } from "./globals";
 
 export class Sound {
@@ -14,6 +15,8 @@ export class Sound {
   audioParametersNode: AudioParametersNode;
 
   private fileQueue: AudioFile[];
+
+  progress = motionValue(0);
 
   constructor({
     filesData,
@@ -56,11 +59,18 @@ export class Sound {
       return;
     }
 
+    const { duration } = file.metadata;
+
+    this.progress.set(0);
+    animate(this.progress, 100, { duration }).then(() => this.progress.set(0));
+
     const fileAudioNode = file.play();
     this.audioParametersNode.plugInto(fileAudioNode);
   }
 
   mute() {
+    this.progress.stop();
+    this.progress.set(0);
     this.audioParametersNode.setParameter("volume", 0);
 
     for (const file of this.files) {

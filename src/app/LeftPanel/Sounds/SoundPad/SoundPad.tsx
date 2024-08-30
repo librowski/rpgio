@@ -5,6 +5,7 @@ import { useRef } from "react";
 import type { ContextMenu } from "primereact/contextmenu";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { motion, useTransform } from "framer-motion";
 
 export function SoundPad({ soundId }: Props) {
   const { getById } = useSoundStore();
@@ -45,14 +46,30 @@ export function SoundPad({ soundId }: Props) {
     overflow: "hidden",
   };
 
+  const progressTransform = useTransform(
+    sound.progress,
+    (progress) =>
+      `translateX(${-progress}%) scaleX(${progress !== 0 ? 100 - progress : 0}%)`,
+  );
+
   return (
-    <div style={style} {...listeners} {...attributes} ref={setNodeRef}>
+    <div
+      className="relative overflow-hidden border-round"
+      style={style}
+      {...listeners}
+      {...attributes}
+      ref={setNodeRef}
+    >
       <Button
         className="w-12rem text-center text-overflow-ellipsis white-space-nowrap"
         rounded
         onClick={onClick}
         onContextMenu={onContextMenu}
         label={name}
+      />
+      <motion.div
+        style={{ transform: progressTransform }}
+        className="pointer-events-none left-0 top-0 absolute w-full h-full bg-white-alpha-10"
       />
       <SoundPadContextMenu soundId={soundId} ref={contextMenuRef} />
     </div>
