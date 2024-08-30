@@ -2,43 +2,47 @@ import { context } from "@/player/globals";
 import { getImpulseResponse } from "./impulseResponses";
 
 export class ReverbNode {
-	private convolverNode = context.createConvolver();
+  private convolverNode = context.createConvolver();
 
-	private wetGainNode = context.createGain();
-	private dryGainNode = context.createGain();
+  private wetGainNode = context.createGain();
+  private dryGainNode = context.createGain();
 
-	startNode = context.createGain();
-	private endNode = context.createGain();
+  startNode = context.createGain();
+  private endNode = context.createGain();
 
-	async setType(type: string) {
-		const audioBuffer = await getImpulseResponse(type);
+  constructor() {
+    this.setup();
+  }
 
-		if (!audioBuffer) {
-			this.setLevel(100);
-			return;
-		}
+  async setType(type: string) {
+    const audioBuffer = await getImpulseResponse(type);
 
-		this.convolverNode.buffer = audioBuffer;
-	}
+    if (!audioBuffer) {
+      this.setLevel(100);
+      return;
+    }
 
-	async setLevel(level: number) {
-		this.wetGainNode.gain.value = level / 100;
-		this.dryGainNode.gain.value = (100 - level) / 100;
-	}
+    this.convolverNode.buffer = audioBuffer;
+  }
 
-	constructor() {
-		this.startNode.gain.value = 1;
-		this.endNode.gain.value = 1;
+  async setLevel(level: number) {
+    this.wetGainNode.gain.value = level / 100;
+    this.dryGainNode.gain.value = (100 - level) / 100;
+  }
 
-		this.startNode.connect(this.dryGainNode);
-		this.startNode.connect(this.convolverNode);
-		this.convolverNode.connect(this.wetGainNode);
+  connect(node: AudioNode) {
+    this.endNode.connect(node);
+  }
 
-		this.dryGainNode.connect(this.endNode);
-		this.wetGainNode.connect(this.endNode);
-	}
+  private setup() {
+    this.startNode.gain.value = 1;
+    this.endNode.gain.value = 1;
 
-	connect(node: AudioNode) {
-		this.endNode.connect(node);
-	}
+    this.startNode.connect(this.dryGainNode);
+    this.startNode.connect(this.convolverNode);
+    this.convolverNode.connect(this.wetGainNode);
+
+    this.dryGainNode.connect(this.endNode);
+    this.wetGainNode.connect(this.endNode);
+  }
 }

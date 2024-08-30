@@ -6,97 +6,94 @@ import { AudioParametersNode } from "./AudioParametersNode";
 import { context } from "./globals";
 
 export class Sound {
-	id: string;
-	eventEmitter = new EventEmitterGroup<"end">();
-	name: string;
-	files: AudioFile[];
-	volume: number;
-	playbackRate: number;
-	reverbType: string;
-	reverbLevel: number;
+  id: string;
+  eventEmitter = new EventEmitterGroup<"end">();
+  name: string;
+  files: AudioFile[];
 
-	audioParametersNode: AudioParametersNode;
+  audioParametersNode: AudioParametersNode;
 
-	private fileQueue: AudioFile[];
+  private fileQueue: AudioFile[];
 
-	constructor({
-		filesData,
-		name,
-		id,
-		volume,
-		playbackRate,
-		reverbType,
-		reverbLevel,
-	}: SoundData) {
-		this.id = id;
-		this.name = name;
-		this.volume = volume;
-		this.playbackRate = playbackRate;
-		this.reverbLevel = reverbLevel;
-		this.reverbType = reverbType;
+  constructor({
+    filesData,
+    name,
+    id,
+    volume,
+    playbackRate,
+    reverbType,
+    reverbLevel,
+  }: SoundData) {
+    this.id = id;
+    this.name = name;
 
-		this.audioParametersNode = new AudioParametersNode({
-			volume,
-			playbackRate,
-			reverbLevel,
-			reverbType,
-		});
+    this.audioParametersNode = new AudioParametersNode({
+      volume,
+      playbackRate,
+      reverbLevel,
+      reverbType,
+    });
 
-		const files = filesData.map((options) => new AudioFile(options));
-		this.files = files;
-		this.fileQueue = [...files];
-		this.eventEmitter = new EventEmitterGroup(
-			...files.map((file) => file.eventEmitter),
-		);
+    const files = filesData.map((options) => new AudioFile(options));
+    this.files = files;
+    this.fileQueue = [...files];
+    this.eventEmitter = new EventEmitterGroup(
+      ...files.map((file) => file.eventEmitter),
+    );
 
-		this.audioParametersNode.connect(context.destination);
-	}
+    this.audioParametersNode.connect(context.destination);
+  }
 
-	play() {
-		if (this.fileQueue.length === 0) {
-			this.fileQueue = [...this.files];
-		}
+  play() {
+    if (this.fileQueue.length === 0) {
+      this.fileQueue = [...this.files];
+    }
 
-		this.shuffle();
-		const file = this.fileQueue.shift();
+    this.shuffle();
+    const file = this.fileQueue.shift();
 
-		if (!file) {
-			return;
-		}
+    if (!file) {
+      return;
+    }
 
-		const fileAudioNode = file.play();
-		this.audioParametersNode.plugInto(fileAudioNode);
-	}
+    const fileAudioNode = file.play();
+    this.audioParametersNode.plugInto(fileAudioNode);
+  }
 
-	mute() {
-		for (const file of this.files) {
-			file.mute();
-		}
-	}
+  mute() {
+    this.audioParametersNode.setParameter("volume", 0);
 
-	toJson(): SoundData {
-		return {
-			id: this.id,
-			name: this.name,
-			filesData: this.files,
-			volume: this.volume,
-			playbackRate: this.playbackRate,
-			reverbType: this.reverbType,
-			reverbLevel: this.reverbLevel,
-		};
-	}
+    for (const file of this.files) {
+      file.mute();
+    }
+  }
 
-	private shuffle() {
-		this.files = shuffle(this.files);
-	}
+  toJson(): SoundData {
+    const { volume, playbackRate, reverbType, reverbLevel } =
+      this.audioParametersNode.parameters;
+
+    return {
+      id: this.id,
+      name: this.name,
+      filesData: this.files,
+      volume,
+      playbackRate,
+      reverbType,
+      reverbLevel,
+    };
+  }
+
+  private shuffle() {
+    this.files = shuffle(this.files);
+  }
 }
 
 export type SoundData = {
-	id: string;
-	filesData: AudioFileData[];
-	name: string;
-	volume: number;
-	playbackRate: number;
-	reverbType: string;
-	reverbLevel: number;
+  id: string;
+  filesData: AudioFileData[];
+  name: string;
+  volume: number;
+  playbackRate: number;
+  reverbType: string;
+  reverbLevel: number;
 };

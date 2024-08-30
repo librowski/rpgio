@@ -26,10 +26,18 @@ export function AudioSettings() {
     setValue("reverbType", value as string);
   }
 
-  const reverbOptions = IMPULSE_RESPONSES.map(({ name, url }) => ({
-    label: name,
-    value: url,
-  }));
+  const NO_REVERB = {
+    label: "No reverb",
+    value: "none",
+  };
+
+  const reverbOptions = [
+    NO_REVERB,
+    ...IMPULSE_RESPONSES.map(({ name, url }) => ({
+      label: name,
+      value: url,
+    })),
+  ];
 
   return (
     <div className="flex flex-column flex-1 gap-2 mt-2 mx-2">
