@@ -1,6 +1,6 @@
 import { shuffle } from "@/utils/shuffle";
 import { AudioFile } from "./AudioFile";
-import type { AudioFileOptions } from "./AudioFile";
+import type { AudioFileData } from "./AudioFile";
 import { EventEmitterGroup } from "./events/EventEmitterGroup";
 import { AudioParametersNode } from "./AudioParametersNode";
 import { context } from "./globals";
@@ -20,14 +20,14 @@ export class Sound {
 	private fileQueue: AudioFile[];
 
 	constructor({
-		fileOptionsList,
+		filesData,
 		name,
 		id,
 		volume,
 		playbackRate,
 		reverbType,
 		reverbLevel,
-	}: SoundOptions) {
+	}: SoundData) {
 		this.id = id;
 		this.name = name;
 		this.volume = volume;
@@ -42,7 +42,7 @@ export class Sound {
 			reverbType,
 		});
 
-		const files = fileOptionsList.map((options) => new AudioFile(options));
+		const files = filesData.map((options) => new AudioFile(options));
 		this.files = files;
 		this.fileQueue = [...files];
 		this.eventEmitter = new EventEmitterGroup(
@@ -78,7 +78,7 @@ export class Sound {
 		return {
 			id: this.id,
 			name: this.name,
-			filePaths: this.files.map(({ path }) => path),
+			filesData: this.files,
 			volume: this.volume,
 			playbackRate: this.playbackRate,
 			reverbType: this.reverbType,
@@ -91,16 +91,12 @@ export class Sound {
 	}
 }
 
-export type SoundOptions = {
+export type SoundData = {
 	id: string;
-	fileOptionsList: AudioFileOptions[];
+	filesData: AudioFileData[];
 	name: string;
 	volume: number;
 	playbackRate: number;
 	reverbType: string;
 	reverbLevel: number;
-};
-
-export type SoundData = Omit<SoundOptions, "fileOptionsList"> & {
-	filePaths: string[];
 };

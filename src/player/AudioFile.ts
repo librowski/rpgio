@@ -4,11 +4,13 @@ import { context } from "./globals";
 export class AudioFile {
 	eventEmitter = new EventEmitter<"end">();
 	path: string;
+  metadata: AudioMetadata;
 
 	private audioNodes = new Set<MediaElementAudioSourceNode>();
 
-	constructor(options: AudioFileOptions) {
-		this.path = options.path;
+	constructor({ path, metadata }: AudioFileData) {
+		this.path = path;
+    this.metadata = metadata;
 	}
 
 	play() {
@@ -24,9 +26,10 @@ export class AudioFile {
 		}
 	}
 
-	toJson(): AudioFileOptions {
+	toJson(): AudioFileData {
 		return {
 			path: this.path,
+      metadata: this.metadata,
 		};
 	}
 
@@ -54,6 +57,14 @@ export class AudioFile {
 	}
 }
 
-export type AudioFileOptions = {
+export type AudioFileData = {
 	path: string;
+  metadata: AudioMetadata;
+};
+
+export type AudioMetadata = {
+  duration: number;
+  bitRate: number;
+  format: string;
+  tags?: Record<string, string | number>;
 };

@@ -2,8 +2,9 @@ import clsx from "clsx";
 import styles from "./FileSelect.module.scss";
 import { Text } from "@/components/Text/Text";
 import { SoundFileItem } from "./SoundFileItem";
+import { AudioFileData } from "@/player/AudioFile";
 
-export function FileList({ filePaths, onSelectFiles }: Props) {
+export function FileList({ filesData: filePaths, onSelectFiles }: Props) {
   const isEmpty = filePaths.length === 0;
   const onClick = isEmpty ? onSelectFiles : undefined;
 
@@ -19,8 +20,8 @@ export function FileList({ filePaths, onSelectFiles }: Props) {
       {isEmpty ? (
         <Text className="m-2">Drop files here or click to select them</Text>
       ) : (
-        filePaths.map((filePath, index) => (
-          <SoundFileItem key={filePath} filePath={filePath} index={index} />
+        filePaths.map((fileData, index) => (
+          <SoundFileItem key={fileData.path} fileData={fileData} index={index} />
         ))
       )}
     </div>
@@ -28,6 +29,6 @@ export function FileList({ filePaths, onSelectFiles }: Props) {
 }
 
 type Props = {
-  filePaths: string[];
+  filesData: AudioFileData[];
   onSelectFiles: () => void;
 };

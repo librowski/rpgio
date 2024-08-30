@@ -13,7 +13,6 @@ export function changeInTime({ time, startValue, endValue, update }: Options) {
 	const handle = setInterval(() => {
 		currentValue += delta;
 		update(currentValue);
-		console.log("oto kurrent", currentValue);
 
 		if (currentValue >= endValue) {
 			clearInterval(handle);

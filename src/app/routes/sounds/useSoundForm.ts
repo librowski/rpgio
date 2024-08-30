@@ -18,7 +18,7 @@ export function useSoundForm(soundId?: string) {
 
 const EMPTY_FORM: FormData = {
 	name: "New sound",
-	filePaths: [],
+	filesData: [],
 	volume: 100,
 	playbackRate: 100,
 	reverbType: "none",

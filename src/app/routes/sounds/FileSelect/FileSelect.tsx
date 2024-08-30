@@ -11,21 +11,23 @@ import { unique } from "@/utils/unique";
 export function FileSelect() {
   const { sounds, update } = useUserPreferencesStore();
   const { setValue, watch } = useSoundFormContext();
-  const { filePaths } = watch();
-  const isEmpty = filePaths.length === 0;
+  const { filesData } = watch();
+  const isEmpty = filesData.length === 0;
 
   async function onSelectFiles() {
     const addedFiles = await window.electronApi.openFileDialog({
       defaultPath: sounds.lastOpenPath,
     });
 
-    const newFilePaths = unique([...filePaths, ...addedFiles]);
-    if (newFilePaths.length === filePaths.length) {
+    const newFilesData = unique([...filesData, ...addedFiles]);
+    if (newFilesData.length === filesData.length) {
       return;
     }
 
-    setValue("filePaths", newFilePaths);
-    update("sounds", { lastOpenPath: newFilePaths[0] });
+    const { path } = newFilesData[0];
+
+    setValue("filesData", newFilesData);
+    update("sounds", { lastOpenPath: path });
   }
 
   const buttonClassName = clsx({
@@ -35,7 +37,7 @@ export function FileSelect() {
   return (
     <InputWrapper className="mx-2 relative" for="files" name="Files">
       <div className="flex flex-column relative">
-        <FileList onSelectFiles={onSelectFiles} filePaths={filePaths} />
+        <FileList onSelectFiles={onSelectFiles} filesData={filesData} />
         {!isEmpty && (
           <IconButton
             variant="fill"

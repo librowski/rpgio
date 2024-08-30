@@ -4,7 +4,6 @@ import { FileSelect } from "./FileSelect/FileSelect";
 import { useSoundFormContext } from "./useSoundForm";
 import { useNavigateBack } from "@/hooks/useNavigateBack";
 import { Sound } from "@/player/Sound";
-import type { AudioFileOptions } from "@/player/AudioFile";
 import { uuid } from "@/utils/uuid";
 import { InputWrapper } from "@/components/inputs/InputWrapper/InputWrapper";
 import { AudioSettings } from "./AudioSettings";
@@ -16,14 +15,10 @@ export function SoundForm({ onSave, confirmText }: Props) {
   const goBack = useNavigateBack();
 
   function onClick() {
-    const { filePaths, ...soundOptions } = getValues();
-
-    const fileOptionsList: AudioFileOptions[] = filePaths.map((path) => ({
-      path,
-    }));
+    const { filesData, ...soundOptions } = getValues();
 
     const sound = new Sound({
-      fileOptionsList,
+      filesData,
       id: id ?? uuid(),
       ...soundOptions,
     });

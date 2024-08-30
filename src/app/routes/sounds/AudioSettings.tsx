@@ -2,7 +2,8 @@ import { Slider } from "@/components/inputs/Slider/Slider";
 import { useSoundFormContext } from "./useSoundForm";
 import type { SliderChangeEvent } from "primereact/slider";
 import { Text } from "@/components/Text/Text";
-import { Dropdown, type DropdownChangeEvent } from "primereact/dropdown";
+import { Dropdown } from "primereact/dropdown";
+import type { DropdownChangeEvent } from "primereact/dropdown";
 import { IMPULSE_RESPONSES } from "@/player/impulseResponses";
 import { InputWrapper } from "@/components/inputs/InputWrapper/InputWrapper";
 

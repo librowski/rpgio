@@ -9,10 +9,10 @@ export async function loadProject() {
 	const projectJson = (await window.electronApi.loadProject()) ?? EMPTY_PROJECT;
 
 	const sounds = projectJson.sounds.map(
-		({ filePaths, ...sound }) =>
+		({ filesData, ...sound }) =>
 			new Sound({
 				...sound,
-				fileOptionsList: filePaths.map((path) => ({ path })),
+				filesData,
 			}),
 	);
 	soundStore.setState({

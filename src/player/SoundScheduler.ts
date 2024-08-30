@@ -33,7 +33,6 @@ export class SoundScheduler {
 
   playWithRandomDelay() {
     const timeout = this.getInterval();
-    console.log("Playing with timeout", timeout);
 
     this.play({ delay: timeout });
   }
