@@ -19,8 +19,6 @@ export class EventEmitterGroup<T extends string> {
 		}
 	}
 
-	emit(event: T) {}
-
 	dispose() {
 		for (const element of this.elements) {
 			element.dispose();

@@ -1,8 +1,8 @@
-import type { SoundSchedulerData } from "@/player/SoundScheduler";
+import type { SoundSchedulerOptions } from "@/player/SoundScheduler";
 
 export function defaultSoundScheduleOptions(
-	type: SoundSchedulerData["scheduleOptions"]["type"] = "interval",
-): SoundSchedulerData["scheduleOptions"] {
+	type: SoundSchedulerOptions["scheduleOptions"]["type"] = "interval",
+): SoundSchedulerOptions["scheduleOptions"] {
 	return type === "interval"
 		? {
 				type: "interval",

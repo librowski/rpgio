@@ -2,13 +2,13 @@ import package_ from './package.json';
 
 import { builtinModules } from 'node:module';
 import type { AddressInfo } from 'node:net';
-import type { ConfigEnv, Plugin, UserConfig } from 'vite';
+import type { ConfigEnvironment, Plugin, UserConfig } from 'vite';
 
 export const builtins = ['electron', ...builtinModules.flatMap((m) => [m, `node:${m}`])];
 
 export const external = [...builtins, ...Object.keys('dependencies' in package_ ? (package_.dependencies as Record<string, unknown>) : {})];
 
-export function getBuildConfig(env: ConfigEnv<'build'>): UserConfig {
+export function getBuildConfig(env: ConfigEnvironment<'build'>): UserConfig {
   const { root, mode, command } = env;
 
   return {
@@ -41,7 +41,7 @@ export function getDefineKeys(names: string[]) {
   }, define);
 }
 
-export function getBuildDefine(env: ConfigEnv<'build'>) {
+export function getBuildDefine(env: ConfigEnvironment<'build'>) {
   const { command, forgeConfig } = env;
   const names = forgeConfig.renderer.filter(({ name }) => name != null).map(({ name }) => name!);
   const defineKeys = getDefineKeys(names);

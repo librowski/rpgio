@@ -4020,6 +4020,117 @@ __metadata:
   languageName: node
   linkType: hard
 
+"lefthook-darwin-arm64@npm:1.7.15":
+  version: 1.7.15
+  resolution: "lefthook-darwin-arm64@npm:1.7.15"
+  conditions: os=darwin & cpu=arm64
+  languageName: node
+  linkType: hard
+
+"lefthook-darwin-x64@npm:1.7.15":
+  version: 1.7.15
+  resolution: "lefthook-darwin-x64@npm:1.7.15"
+  conditions: os=darwin & cpu=x64
+  languageName: node
+  linkType: hard
+
+"lefthook-freebsd-arm64@npm:1.7.15":
+  version: 1.7.15
+  resolution: "lefthook-freebsd-arm64@npm:1.7.15"
+  conditions: os=freebsd & cpu=arm64
+  languageName: node
+  linkType: hard
+
+"lefthook-freebsd-x64@npm:1.7.15":
+  version: 1.7.15
+  resolution: "lefthook-freebsd-x64@npm:1.7.15"
+  conditions: os=freebsd & cpu=x64
+  languageName: node
+  linkType: hard
+
+"lefthook-linux-arm64@npm:1.7.15":
+  version: 1.7.15
+  resolution: "lefthook-linux-arm64@npm:1.7.15"
+  conditions: os=linux & cpu=arm64
+  languageName: node
+  linkType: hard
+
+"lefthook-linux-x64@npm:1.7.15":
+  version: 1.7.15
+  resolution: "lefthook-linux-x64@npm:1.7.15"
+  conditions: os=linux & cpu=x64
+  languageName: node
+  linkType: hard
+
+"lefthook-openbsd-arm64@npm:1.7.15":
+  version: 1.7.15
+  resolution: "lefthook-openbsd-arm64@npm:1.7.15"
+  conditions: os=openbsd & cpu=arm64
+  languageName: node
+  linkType: hard
+
+"lefthook-openbsd-x64@npm:1.7.15":
+  version: 1.7.15
+  resolution: "lefthook-openbsd-x64@npm:1.7.15"
+  conditions: os=openbsd & cpu=x64
+  languageName: node
+  linkType: hard
+
+"lefthook-windows-arm64@npm:1.7.15":
+  version: 1.7.15
+  resolution: "lefthook-windows-arm64@npm:1.7.15"
+  conditions: os=win32 & cpu=arm64
+  languageName: node
+  linkType: hard
+
+"lefthook-windows-x64@npm:1.7.15":
+  version: 1.7.15
+  resolution: "lefthook-windows-x64@npm:1.7.15"
+  conditions: os=win32 & cpu=x64
+  languageName: node
+  linkType: hard
+
+"lefthook@npm:^1.7.15":
+  version: 1.7.15
+  resolution: "lefthook@npm:1.7.15"
+  dependencies:
+    lefthook-darwin-arm64: "npm:1.7.15"
+    lefthook-darwin-x64: "npm:1.7.15"
+    lefthook-freebsd-arm64: "npm:1.7.15"
+    lefthook-freebsd-x64: "npm:1.7.15"
+    lefthook-linux-arm64: "npm:1.7.15"
+    lefthook-linux-x64: "npm:1.7.15"
+    lefthook-openbsd-arm64: "npm:1.7.15"
+    lefthook-openbsd-x64: "npm:1.7.15"
+    lefthook-windows-arm64: "npm:1.7.15"
+    lefthook-windows-x64: "npm:1.7.15"
+  dependenciesMeta:
+    lefthook-darwin-arm64:
+      optional: true
+    lefthook-darwin-x64:
+      optional: true
+    lefthook-freebsd-arm64:
+      optional: true
+    lefthook-freebsd-x64:
+      optional: true
+    lefthook-linux-arm64:
+      optional: true
+    lefthook-linux-x64:
+      optional: true
+    lefthook-openbsd-arm64:
+      optional: true
+    lefthook-openbsd-x64:
+      optional: true
+    lefthook-windows-arm64:
+      optional: true
+    lefthook-windows-x64:
+      optional: true
+  bin:
+    lefthook: bin/index.js
+  checksum: 10c0/fe1c1597af56127cef361bc339944d4edbbb91931e40ed2d0a066cccde1c9cf0e25e5de1ad8dd9d39debc62dbb38a01143201ea5b97e4f7874f7aa56376465b0
+  languageName: node
+  linkType: hard
+
 "listr2@npm:^7.0.2":
   version: 7.0.2
   resolution: "listr2@npm:7.0.2"
@@ -4071,6 +4182,13 @@ __metadata:
   dependencies:
     p-locate: "npm:^5.0.0"
   checksum: 10c0/d3972ab70dfe58ce620e64265f90162d247e87159b6126b01314dd67be43d50e96a50b517bce2d9452a79409c7614054c277b5232377de50416564a77ac7aad3
+  languageName: node
+  linkType: hard
+
+"lodash.debounce@npm:^4.0.8":
+  version: 4.0.8
+  resolution: "lodash.debounce@npm:4.0.8"
+  checksum: 10c0/762998a63e095412b6099b8290903e0a8ddcb353ac6e2e0f2d7e7d03abd4275fe3c689d88960eb90b0dde4f177554d51a690f22a343932ecbc50a5d111849987
   languageName: node
   linkType: hard
 
@@ -5580,6 +5698,7 @@ __metadata:
     just-throttle: "npm:^4.2.0"
     just-truncate: "npm:^2.2.0"
     just-unique: "npm:^4.2.0"
+    lefthook: "npm:^1.7.15"
     prettier: "npm:3.3.2"
     primeflex: "npm:^3.3.1"
     primereact: "npm:^10.6.6"
@@ -5590,6 +5709,7 @@ __metadata:
     sass: "npm:^1.77.6"
     ts-node: "npm:^10.0.0"
     typescript: "npm:^5.5.2"
+    usehooks-ts: "npm:^3.1.0"
     uuid: "npm:^10.0.0"
     vite: "npm:^5.0.12"
     zustand: "npm:^4.5.4"
@@ -6314,6 +6434,17 @@ __metadata:
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
   checksum: 10c0/ac4814e5592524f242921157e791b022efe36e451fe0d4fd4d204322d5433a4fc300d63b0ade5185f8e0735ded044c70bcf6d2352db0f74d097a238cebd2da02
+  languageName: node
+  linkType: hard
+
+"usehooks-ts@npm:^3.1.0":
+  version: 3.1.0
+  resolution: "usehooks-ts@npm:3.1.0"
+  dependencies:
+    lodash.debounce: "npm:^4.0.8"
+  peerDependencies:
+    react: ^16.8.0  || ^17 || ^18
+  checksum: 10c0/2204d8c95109302bdaaa51a66bf216f3dba750f1d2795c20ecba75ba1c44a070a253935d537ef536514ab6e363bcc02ccc78b5ad63576ff8d880d577cf3fc48f
   languageName: node
   linkType: hard
 

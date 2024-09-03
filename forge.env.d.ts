@@ -1,3 +1,5 @@
+import { ConfigEnv } from 'vite';
+
 export type {}; // Make this a module
 
 declare global {
@@ -27,5 +29,5 @@ declare module 'vite' {
     root: string;
     forgeConfig: VitePluginConfig;
     forgeConfigSelf: VitePluginConfig[K][number];
-  }
+  } & ConfigEnv;
 }
