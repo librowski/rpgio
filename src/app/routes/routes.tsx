@@ -1,9 +1,10 @@
 import { createBrowserRouter } from "react-router-dom";
 import { AnimatedLayout } from "../AnimatedLayout/AnimatedLayout";
 import { MainView } from "./main/MainView";
-import { NewSoundView } from "./sounds/NewSoundView";
+import { EditSceneView } from "./scenes/EditSceneView";
 import { NewSceneView } from "./scenes/NewSceneView";
 import { EditSoundView } from "./sounds/EditSoundView";
+import { NewSoundView } from "./sounds/NewSoundView";
 
 export const ROUTES = {
 	ROOT: "/",
@@ -23,12 +24,16 @@ export const router = createBrowserRouter([
 				element: <MainView />,
 			},
 			{
+				path: ROUTES.SOUNDS_EDIT,
+				element: <EditSoundView />,
+			},
+			{
 				path: ROUTES.SOUNDS_NEW,
 				element: <NewSoundView />,
 			},
 			{
-				path: ROUTES.SOUNDS_EDIT,
-				element: <EditSoundView />,
+				path: ROUTES.SCENES_EDIT,
+				element: <EditSceneView />,
 			},
 			{
 				path: ROUTES.SCENES_NEW,

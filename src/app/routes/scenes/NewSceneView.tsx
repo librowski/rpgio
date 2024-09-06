@@ -1,86 +1,26 @@
-import { IconButton } from "@/components/IconButton/IconButton";
-import { Text } from "@/components/Text/Text";
-import { ArrowLeft } from "@phosphor-icons/react";
-import { motion } from "framer-motion";
-import { InputText } from "primereact/inputtext";
-import styles from "./NewScene.module.scss";
-import { Button } from "primereact/button";
-import { SoundSchedules } from "./SoundSchedules/SoundSchedules";
-import { useSceneForm } from "./useSceneForm";
-import { FormProvider } from "react-hook-form";
-import { Scene } from "@/player/Scene";
-import { uuid } from "@/utils/uuid";
-import type { SoundSchedulerOptions } from "@/player/SoundScheduler";
-import { useSoundStore } from "@/store/sounds";
-import { useSceneStore } from "@/store/scenes";
+import { EntityView } from "@/components/EntityView/EntityView";
 import { useNavigateBack } from "@/hooks/useNavigateBack";
-import { InputWrapper } from "@/components/inputs/InputWrapper/InputWrapper";
+import type { Scene } from "@/player/Scene";
+import { useSceneStore } from "@/store/scenes";
+import { FormProvider } from "react-hook-form";
+import { SceneForm } from "./SceneForm";
+import { useSceneForm } from "./useSceneForm";
 
 export function NewSceneView() {
-  const methods = useSceneForm();
-  const { getById: getSoundById } = useSoundStore();
-  const { addScene } = useSceneStore();
-  const { register, getValues } = methods;
-  const goBack = useNavigateBack();
+	const methods = useSceneForm();
+	const { addScene } = useSceneStore();
+	const goBack = useNavigateBack();
 
-  function onAddScene() {
-    const { name, soundSchedules } = getValues();
+	function onAddScene(scene: Scene) {
+		addScene(scene);
+		goBack();
+	}
 
-    const soundSchedulesOptions: SoundSchedulerOptions[] = soundSchedules.map(
-      ({ soundId, ...data }) => {
-        const sound = getSoundById(soundId);
-
-        const fileOptionsList = sound?.files.map(({ path }) => ({ path }));
-
-        return {
-          soundOptions: {
-            fileOptionsList,
-          },
-          ...data,
-          soundId,
-        };
-      },
-    );
-
-    const scene = new Scene({
-      name,
-      id: uuid(),
-      soundSchedules: soundSchedulesOptions,
-      image: "",
-    });
-
-    addScene(scene);
-    goBack();
-  }
-
-  return (
-    <FormProvider {...methods}>
-      <motion.div
-        animate
-        className={`flex gap-4 flex-column ${styles.container}`}
-      >
-        <div className="flex align-items-center gap-2 relative">
-          <IconButton
-            icon={ArrowLeft}
-            className={styles["back-button"]}
-            onClick={goBack}
-          />
-          <Text size="extra-large" weight="bold">
-            New Scene
-          </Text>
-        </div>
-
-        <div className="flex gap-2 align-items-end">
-          <InputWrapper for="name" name="Name">
-            <InputText id="name" {...register("name")} />
-          </InputWrapper>
-          <InputWrapper for="shortcut" name="Shortcut">
-            <Button className="flex-1" label="Choose Key" />
-          </InputWrapper>
-        </div>
-        <SoundSchedules />
-        <Button label="Create" onClick={onAddScene} />
-      </motion.div>
-    </FormProvider>
-  );
+	return (
+		<FormProvider {...methods}>
+			<EntityView header="New scene">
+				<SceneForm onSave={onAddScene} confirmText={"Create"} />
+			</EntityView>
+		</FormProvider>
+	);
 }

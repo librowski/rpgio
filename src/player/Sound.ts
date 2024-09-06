@@ -1,3 +1,4 @@
+import { changeInTime } from "@/utils/changeInTime";
 import { shuffle } from "@/utils/shuffle";
 import { motionValue } from "framer-motion";
 import { AudioFile } from "./AudioFile";
@@ -5,7 +6,6 @@ import type { AudioFileData } from "./AudioFile";
 import { AudioParametersNode } from "./AudioParametersNode";
 import { EventEmitterGroup } from "./events/EventEmitterGroup";
 import { context } from "./globals";
-import { changeInTime } from "@/utils/changeInTime";
 
 export class Sound {
 	id: string;
@@ -51,6 +51,8 @@ export class Sound {
 	}
 
 	play() {
+		this.unmute();
+
 		const file = this.fileQueue.shift();
 		if (this.fileQueue.length === 0) {
 			this.fileQueue = [...this.files];
@@ -73,6 +75,10 @@ export class Sound {
 
 		const fileAudioNode = file.play();
 		this.audioParametersNode.plugInto(fileAudioNode);
+	}
+
+	unmute() {
+		this.audioParametersNode.setParameter("volume", 100);
 	}
 
 	mute() {

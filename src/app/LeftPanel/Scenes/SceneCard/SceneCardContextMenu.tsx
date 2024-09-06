@@ -1,10 +1,11 @@
 import { useSceneStore } from "@/store/scenes";
-import { log } from "@/utils/log";
-import { Trash, SpeakerX, Pencil, type IconProps } from "@phosphor-icons/react";
+import { Pencil, SpeakerX, Trash } from "@phosphor-icons/react";
+import type { IconProps } from "@phosphor-icons/react";
 import type { ContextMenuProps } from "primereact/contextmenu";
 import { ContextMenu } from "primereact/contextmenu";
 import type { MenuItem } from "primereact/menuitem";
 import { forwardRef } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const SceneCardContextMenu = forwardRef<ContextMenu, Props>(
 	function SceneCardContextMenu({ sceneId, ...props }, ref) {
@@ -27,6 +28,7 @@ type Props = ContextMenuProps & {
 
 function useContextMenuItems(sceneId: string): MenuItem[] {
 	const { removeScene, getById, deactiveateScene } = useSceneStore();
+	const navigate = useNavigate();
 	const scene = getById(sceneId);
 
 	function onDelete() {
@@ -34,7 +36,7 @@ function useContextMenuItems(sceneId: string): MenuItem[] {
 	}
 
 	function onEdit() {
-		log({ message: "Edit scene" });
+		navigate(`/scenes/edit/${sceneId}`);
 	}
 
 	function onMute() {

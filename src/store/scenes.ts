@@ -38,6 +38,11 @@ export const useSceneStore = create<SceneStore>((set, get) => ({
 			scenes: [...state.scenes, scene],
 		}));
 	},
+	updateScene(id, updatedScene) {
+		set(({ scenes }) => ({
+			scenes: scenes.map((scene) => (scene.id === id ? updatedScene : scene)),
+		}));
+	},
 	removeScene(sceneId) {
 		set((state) => ({
 			scenes: state.scenes.filter(({ id }) => id !== sceneId),
@@ -58,4 +63,5 @@ type SceneStore = {
 	addScene(scene: Scene): void;
 	setScenes(scenes: Scene[]): void;
 	removeScene(sceneId: string): void;
+	updateScene(sceneId: string, updatedScene: Scene): void;
 };

@@ -1,17 +1,14 @@
 import { EntityView } from "@/components/EntityView/EntityView";
 import { useNavigateBack } from "@/hooks/useNavigateBack";
-import type { Sound } from "@/player/Sound";
-import { useSoundStore } from "@/store/sounds";
+import type { Scene } from "@/player/Scene";
+import { useSceneStore } from "@/store/scenes";
 import { FormProvider } from "react-hook-form";
-import { useParams } from "react-router";
-import { SoundForm } from "./SoundForm";
-import { useSoundForm } from "./useSoundForm";
+import { useParams } from "react-router-dom";
+import { SceneForm } from "./SceneForm";
+import { useSceneForm } from "./useSceneForm";
 
-export function EditSoundView() {
+export function EditSceneView() {
 	const { id } = useParams();
-
-	const methods = useSoundForm(id);
-	const { getValues } = methods;
 
 	const goBack = useNavigateBack();
 	if (!id) {
@@ -19,21 +16,24 @@ export function EditSoundView() {
 		goBack();
 	}
 
+	const methods = useSceneForm(id);
+	const { getValues } = methods;
+	const { updateScene } = useSceneStore();
 	const { name } = getValues();
-	const { updateSound } = useSoundStore();
-	function onEditSound(sound: Sound) {
+
+	function onEditScene(scene: Scene) {
 		if (!id) {
 			return;
 		}
 
-		updateSound(id, sound);
+		updateScene(id, scene);
 		goBack();
 	}
 
 	return (
 		<FormProvider {...methods}>
 			<EntityView header={`${name} (editing)`}>
-				<SoundForm onSave={onEditSound} confirmText="Save" />
+				<SceneForm onSave={onEditScene} confirmText={"Save"} />
 			</EntityView>
 		</FormProvider>
 	);
