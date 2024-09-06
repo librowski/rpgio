@@ -1,4 +1,5 @@
 import { EntityView } from "@/components/EntityView/EntityView";
+import { EditingTag } from "@/components/tags/EditingTag";
 import { useNavigateBack } from "@/hooks/useNavigateBack";
 import type { Sound } from "@/player/Sound";
 import { useSoundStore } from "@/store/sounds";
@@ -32,7 +33,14 @@ export function EditSoundView() {
 
 	return (
 		<FormProvider {...methods}>
-			<EntityView header={`${name} (editing)`}>
+			<EntityView
+				header={
+					<div className="flex gap-2 align-items-center">
+						{name}
+						<EditingTag />
+					</div>
+				}
+			>
 				<SoundForm onSave={onEditSound} confirmText="Save" />
 			</EntityView>
 		</FormProvider>

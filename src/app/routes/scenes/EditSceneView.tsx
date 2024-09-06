@@ -1,4 +1,5 @@
 import { EntityView } from "@/components/EntityView/EntityView";
+import { EditingTag } from "@/components/tags/EditingTag";
 import { useNavigateBack } from "@/hooks/useNavigateBack";
 import type { Scene } from "@/player/Scene";
 import { useSceneStore } from "@/store/scenes";
@@ -32,7 +33,14 @@ export function EditSceneView() {
 
 	return (
 		<FormProvider {...methods}>
-			<EntityView header={`${name} (editing)`}>
+			<EntityView
+				header={
+					<div className="flex gap-2 align-items-center">
+						{name}
+						<EditingTag />
+					</div>
+				}
+			>
 				<SceneForm onSave={onEditScene} confirmText={"Save"} />
 			</EntityView>
 		</FormProvider>

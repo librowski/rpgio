@@ -5,6 +5,7 @@ import { useSoundStore } from "@/store/sounds";
 import { uuid } from "@/utils/uuid";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
+import { ScenePreview } from "./ScenePreview";
 import { SoundSchedules } from "./SoundSchedules/SoundSchedules";
 import { useSceneFormContext } from "./useSceneForm";
 
@@ -44,6 +45,7 @@ export function SceneForm({ onSave, confirmText }: Props) {
 
 	return (
 		<>
+			<ScenePreview />
 			<div className="flex gap-2 align-items-end">
 				<InputWrapper for="name" name="Name">
 					<InputText id="name" {...register("name")} />

@@ -1,20 +1,25 @@
 import { Text } from "@/components/Text/Text";
-import { motion } from "framer-motion";
+import { PreviewTag } from "@/components/tags/PreviewTag";
+import type { Scene } from "@/player/Scene";
+import { useSceneStore } from "@/store/scenes";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import styles from "./SceneCard.module.scss";
-import { useSceneStore } from "@/store/scenes";
-import type { Scene } from "@/player/Scene";
 import clsx from "clsx";
-import { useRef } from "react";
+import { motion } from "framer-motion";
 import type { ContextMenu } from "primereact/contextmenu";
+import { useRef } from "react";
+import styles from "./SceneCard.module.scss";
 import { SceneCardContextMenu } from "./SceneCardContextMenu";
 
-export function SceneCard({ scene }: Props) {
+export function SceneCard({ scene, previewMode }: Props) {
 	const { name, id } = scene;
 	const contextMenuRef = useRef<ContextMenu>(null);
 
 	function onContextMenu(event: React.MouseEvent) {
+		if (previewMode) {
+			return;
+		}
+
 		contextMenuRef?.current?.show(event);
 	}
 
@@ -50,7 +55,7 @@ export function SceneCard({ scene }: Props) {
 			{...listeners}
 			ref={setNodeRef}
 			className={clsx(
-				"flex flex-column list-none overflow-hidden border-round-sm",
+				"relative flex flex-column list-none overflow-hidden border-round-sm",
 				styles.container,
 				{
 					[styles.active]: isActive,
@@ -66,6 +71,11 @@ export function SceneCard({ scene }: Props) {
 			<div className={clsx("px-2 py-1", styles["scene-card__label"])}>
 				<Text color="primary">{name}</Text>
 			</div>
+			{previewMode && (
+				<div className="absolute top-0 right-0 m-1">
+					<PreviewTag />
+				</div>
+			)}
 			<SceneCardContextMenu sceneId={id} ref={contextMenuRef} />
 		</motion.div>
 	);
@@ -73,4 +83,5 @@ export function SceneCard({ scene }: Props) {
 
 type Props = {
 	scene: Scene;
+	previewMode?: boolean;
 };

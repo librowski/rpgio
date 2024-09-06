@@ -1,40 +1,44 @@
 import type { SceneData } from "@/player/Scene";
-import { useForm, useFormContext } from "react-hook-form";
-import { defaultSoundScheduleOptions } from "./SoundSchedules/defaultSoundSchedule";
 import { useSceneStore } from "@/store/scenes";
+import { useSoundStore } from "@/store/sounds";
 import { omit } from "@/utils/omit";
 import { uuid } from "@/utils/uuid";
-import { useSoundStore } from "@/store/sounds";
+import { useForm, useFormContext } from "react-hook-form";
+import { defaultSoundScheduleOptions } from "./SoundSchedules/defaultSoundSchedule";
 
 export function useSceneForm(sceneId?: string) {
-  const { getById } = useSceneStore();
-  const {
-    sounds: [{ id: firstSoundId }],
-  } = useSoundStore();
+	const { getById } = useSceneStore();
+	const {
+		sounds: [firstSound],
+	} = useSoundStore();
 
-  const editedScene = sceneId ? getById(sceneId) : null;
+	const soundSchedules = firstSound
+		? [
+				{
+					id: uuid(),
+					soundId: firstSound.id,
+					scheduleOptions: defaultSoundScheduleOptions(),
+				},
+			]
+		: [];
 
-  const EMPTY_FORM: SceneFormData = {
-    image: "",
-    name: "New scene",
-    soundSchedules: [
-      {
-        id: uuid(),
-        soundId: firstSoundId,
-        scheduleOptions: defaultSoundScheduleOptions(),
-      },
-    ],
-  };
+	const editedScene = sceneId ? getById(sceneId) : null;
 
-  const defaultValues = editedScene
-    ? omit(editedScene.toJson(), "id")
-    : EMPTY_FORM;
+	const EMPTY_FORM: SceneFormData = {
+		image: "",
+		name: "New scene",
+		soundSchedules,
+	};
 
-  return useForm<SceneFormData>({ defaultValues });
+	const defaultValues = editedScene
+		? omit(editedScene.toJson(), "id")
+		: EMPTY_FORM;
+
+	return useForm<SceneFormData>({ defaultValues });
 }
 
 export function useSceneFormContext() {
-  return useFormContext<SceneFormData>();
+	return useFormContext<SceneFormData>();
 }
 
 export type SceneFormData = Omit<SceneData, "id">;
