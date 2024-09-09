@@ -33,7 +33,7 @@ export function SceneCard({ scene, previewMode }: Props) {
 		transform,
 		transition,
 		isDragging,
-	} = useSortable({ id });
+	} = useSortable({ id, disabled: true });
 
 	const style = {
 		"--url": `url(${image})`,

@@ -1,6 +1,4 @@
 import { FuseV1Options, FuseVersion } from '@electron/fuses';
-import { MakerDeb } from '@electron-forge/maker-deb';
-import { MakerRpm } from '@electron-forge/maker-rpm';
 import { MakerSquirrel } from '@electron-forge/maker-squirrel';
 import { MakerZIP } from '@electron-forge/maker-zip';
 import { FusesPlugin } from '@electron-forge/plugin-fuses';
@@ -8,7 +6,7 @@ import { VitePlugin } from '@electron-forge/plugin-vite';
 import type { ForgeConfig } from '@electron-forge/shared-types';
 
 const config: ForgeConfig = {
-  makers: [new MakerSquirrel({}), new MakerZIP({}, ['darwin']), new MakerRpm({}), new MakerDeb({})],
+  makers: [new MakerSquirrel({}), new MakerZIP({}, ['darwin', 'linux'])],
   packagerConfig: {
     asar: true,
   },
@@ -18,10 +16,10 @@ const config: ForgeConfig = {
       // If you are familiar with Vite configuration, it will look really familiar.
       build: [
         {
-          
+
           config: 'vite.main.config.ts',
           // `entry` is just an alias for `build.lib.entry` in the corresponding file of `config`.
-entry: 'src/main.ts',
+          entry: 'src/main.ts',
         },
         {
           config: 'vite.preload.config.ts',
@@ -48,6 +46,18 @@ entry: 'src/main.ts',
     }),
   ],
   rebuildConfig: {},
+  publishers: [
+    {
+      name: '@electron-forge/publisher-github',
+      config: {
+        repository: {
+          owner: 'librowski',
+          name: 'rpgio'
+        },
+        prerelease: true
+      }
+    }
+  ]
 };
 
 export default config;
