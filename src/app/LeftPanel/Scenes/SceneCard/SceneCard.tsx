@@ -12,7 +12,7 @@ import styles from "./SceneCard.module.scss";
 import { SceneCardContextMenu } from "./SceneCardContextMenu";
 
 export function SceneCard({ scene, previewMode }: Props) {
-	const { name, id } = scene;
+	const { image, name, id } = scene;
 	const contextMenuRef = useRef<ContextMenu>(null);
 
 	function onContextMenu(event: React.MouseEvent) {
@@ -36,6 +36,7 @@ export function SceneCard({ scene, previewMode }: Props) {
 	} = useSortable({ id });
 
 	const style = {
+		"--url": `url(${image})`,
 		transform: CSS.Transform.toString(transform),
 		transition: transition,
 		cursor: isDragging ? "grabbing" : "pointer",
@@ -72,7 +73,7 @@ export function SceneCard({ scene, previewMode }: Props) {
 				<Text color="primary">{name}</Text>
 			</div>
 			{previewMode && (
-				<div className="absolute top-0 right-0 m-1">
+				<div className="absolute opacity-80 top-0 right-0 m-1">
 					<PreviewTag />
 				</div>
 			)}

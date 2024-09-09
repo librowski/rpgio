@@ -1,5 +1,6 @@
 @import "../../node_modules/primeflex/primeflex.scss";
 @import "./theme/theme.scss";
+@layer primereact;
 
 :root {
   --background-dark: #090D10;

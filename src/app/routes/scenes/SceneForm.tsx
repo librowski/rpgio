@@ -3,6 +3,7 @@ import { Scene } from "@/player/Scene";
 import type { SoundSchedulerOptions } from "@/player/SoundScheduler";
 import { useSoundStore } from "@/store/sounds";
 import { uuid } from "@/utils/uuid";
+import { Upload } from "@phosphor-icons/react";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import { ScenePreview } from "./ScenePreview";
@@ -15,7 +16,7 @@ export function SceneForm({ onSave, confirmText }: Props) {
 	const { register, getValues } = methods;
 
 	function onClick() {
-		const { name, soundSchedules } = getValues();
+		const { soundSchedules } = getValues();
 
 		const soundSchedulesOptions: SoundSchedulerOptions[] = soundSchedules.map(
 			({ soundId, ...data }) => {
@@ -34,10 +35,9 @@ export function SceneForm({ onSave, confirmText }: Props) {
 		);
 
 		const scene = new Scene({
-			name,
+			...getValues(),
 			id: uuid(),
 			soundSchedules: soundSchedulesOptions,
-			image: "",
 		});
 
 		onSave(scene);
@@ -49,6 +49,16 @@ export function SceneForm({ onSave, confirmText }: Props) {
 			<div className="flex gap-2 align-items-end">
 				<InputWrapper for="name" name="Name">
 					<InputText id="name" {...register("name")} />
+				</InputWrapper>
+				<InputWrapper for="image" name="Scene background">
+					<div className="p-inputgroup flex-1">
+						<InputText
+							placeholder="Image URL"
+							id="url"
+							{...register("image")}
+						/>
+						<Button icon={() => <Upload />} />
+					</div>
 				</InputWrapper>
 				<InputWrapper for="shortcut" name="Shortcut">
 					<Button className="flex-1" label="Choose Key" />

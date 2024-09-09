@@ -1,3 +1,4 @@
+import { log } from "@/utils/log";
 import { SoundScheduler } from "./SoundScheduler";
 import type { SoundSchedulerOptions } from "./SoundScheduler";
 
@@ -13,10 +14,11 @@ export class Scene {
 		image,
 		soundSchedules: automatedSounds,
 	}: SceneOptions) {
+		log({ message: `url: ${image}` });
 		this.id = id;
 		this.name = name;
 		this.image =
-			image ||
+			image ??
 			"https://ruralhistoria.com/wp-content/uploads/images/medieval-market-squares.jpeg";
 
 		this.soundSchedulers = automatedSounds.map(
